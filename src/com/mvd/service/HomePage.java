@@ -126,6 +126,7 @@ public class HomePage extends JFrame {
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginPage lp = new LoginPage();
+				lp.setLocationRelativeTo(null);
 				lp.setVisible(true);
 				setVisible(false);
 			}
@@ -146,6 +147,7 @@ public class HomePage extends JFrame {
 		register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrationPage rp = new RegistrationPage();
+				rp.setLocationRelativeTo(null);
 				rp.setVisible(true);
 				setVisible(false);
 			}

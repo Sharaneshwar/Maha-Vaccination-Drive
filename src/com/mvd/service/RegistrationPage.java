@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.GroupLayout.Group;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -26,13 +26,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 import java.awt.Component;
-import com.toedter.calendar.JDateChooser;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import com.toedter.calendar.JDayChooser;
-import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
-import com.toedter.components.JSpinField;
+import java.awt.Dimension;
 
 public class RegistrationPage extends JFrame {
 
@@ -42,10 +39,10 @@ public class RegistrationPage extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField fullName;
-	private JPasswordField password;
-	private JPasswordField confirmPassword;
 	private JTextField mobileNo;
 	private JTextField emailID;
+	private JPasswordField password;
+	private JPasswordField confirmPassword;
 
 	/**
 	 * Launch the application.
@@ -69,7 +66,7 @@ public class RegistrationPage extends JFrame {
 	 */
 	public RegistrationPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 700);
+		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -79,7 +76,6 @@ public class RegistrationPage extends JFrame {
 		contentPane.setLayout(null);
 		setUndecorated(true);
 
-		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setLayout(null);
 		headerPanel.setBackground(new Color(238, 232, 170));
@@ -151,7 +147,7 @@ public class RegistrationPage extends JFrame {
 		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
 		RegisterLabel.setIcon(new ImageIcon(image));
 		RegisterLabel.setForeground(new Color(0, 51, 102));
-		RegisterLabel.setBounds(179, 147, 531, 20);
+		RegisterLabel.setBounds(179, 152, 531, 20);
 		contentPane.add(RegisterLabel);
 		RegisterLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 22));
 		RegisterLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -161,18 +157,31 @@ public class RegistrationPage extends JFrame {
 		JPanel registerPanel = new JPanel();
 		registerPanel.setBorder(new LineBorder(new Color(0, 51, 102), 3, true));
 		registerPanel.setOpaque(false);
-		registerPanel.setBounds(46, 161, 821, 511);
+		registerPanel.setBounds(40, 161, 820, 450);
 		contentPane.add(registerPanel);
 		registerPanel.setFont(new Font("Product Sans", Font.PLAIN, 16));
 		registerPanel.setBackground(new Color(135, 206, 235));
 		registerPanel.setLayout(null);
-		
-		JSeparator separator_1_2 = new JSeparator();
-		separator_1_2.setForeground(new Color(0, 51, 102));
-		separator_1_2.setBackground(new Color(0, 51, 102));
-		separator_1_2.setBounds(71, 249, 310, 5);
-		registerPanel.add(separator_1_2);
-		
+
+		password = new JPasswordField();
+		password.setBorder(null);
+		password.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		password.setOpaque(false);
+		password.setBounds(466, 215, 310, 34);
+		registerPanel.add(password);
+
+		JSeparator s7 = new JSeparator();
+		s7.setForeground(new Color(0, 51, 102));
+		s7.setBackground(new Color(0, 51, 102));
+		s7.setBounds(466, 250, 310, 5);
+		registerPanel.add(s7);
+
+		JSeparator s6 = new JSeparator();
+		s6.setForeground(new Color(0, 51, 102));
+		s6.setBackground(new Color(0, 51, 102));
+		s6.setBounds(45, 250, 310, 5);
+		registerPanel.add(s6);
+
 		emailID = new JTextField();
 		emailID.setToolTipText("");
 		emailID.setOpaque(false);
@@ -180,70 +189,71 @@ public class RegistrationPage extends JFrame {
 		emailID.setColumns(10);
 		emailID.setCaretColor(Color.BLACK);
 		emailID.setBorder(null);
-		emailID.setBounds(71, 215, 310, 34);
+		emailID.setBounds(45, 215, 310, 34);
 		registerPanel.add(emailID);
-		
-		JSeparator separator = new JSeparator();
-		separator.setForeground(new Color(0, 51, 102));
-		separator.setBackground(new Color(0, 51, 102));
-		separator.setBounds(71, 95, 310, 5);
-		registerPanel.add(separator);
+
+		JSeparator s1 = new JSeparator();
+		s1.setForeground(new Color(0, 51, 102));
+		s1.setBackground(new Color(0, 51, 102));
+		s1.setBounds(45, 95, 310, 5);
+		registerPanel.add(s1);
 
 		JLabel fullNameLabel = new JLabel("Full Name");
 		fullNameLabel.setForeground(new Color(0, 0, 0));
 		fullNameLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		fullNameLabel.setBounds(71, 35, 105, 29);
+		fullNameLabel.setBounds(45, 35, 105, 29);
 		registerPanel.add(fullNameLabel);
-		
+
 		fullName = new JTextField();
 		fullName.setToolTipText("");
 		fullName.setOpaque(false);
 		fullName.setCaretColor(new Color(0, 0, 0));
 		fullName.setBorder(null);
 		fullName.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		fullName.setBounds(71, 62, 310, 34);
+		fullName.setBounds(45, 62, 310, 34);
 		registerPanel.add(fullName);
 		fullName.setColumns(10);
 
 		JLabel mobileLabel = new JLabel("Mobile No.");
 		mobileLabel.setForeground(new Color(0, 0, 0));
 		mobileLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		mobileLabel.setBounds(71, 115, 105, 29);
+		mobileLabel.setBounds(45, 110, 105, 29);
 		registerPanel.add(mobileLabel);
 
 		JLabel emailLabel = new JLabel("Email-ID (optional)");
 		emailLabel.setForeground(new Color(0, 0, 0));
 		emailLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		emailLabel.setBounds(71, 188, 164, 29);
+		emailLabel.setBounds(45, 188, 164, 29);
 		registerPanel.add(emailLabel);
 
 		JLabel genderLabel = new JLabel("Gender");
+		genderLabel.setForeground(new Color(0, 0, 0));
 		genderLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		genderLabel.setBounds(71, 343, 105, 29);
+		genderLabel.setBounds(45, 361, 105, 29);
 		registerPanel.add(genderLabel);
 
 		JRadioButton MaleRB = new JRadioButton("Male");
 		MaleRB.setOpaque(false);
 		MaleRB.setBackground(Color.WHITE);
 		MaleRB.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		MaleRB.setBounds(71, 379, 66, 23);
+		MaleRB.setBounds(45, 396, 66, 23);
 		registerPanel.add(MaleRB);
 
 		JRadioButton FemaleRB = new JRadioButton("Female");
 		FemaleRB.setOpaque(false);
 		FemaleRB.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
 		FemaleRB.setBackground(Color.WHITE);
-		FemaleRB.setBounds(165, 379, 115, 23);
+		FemaleRB.setBounds(139, 396, 115, 23);
 		registerPanel.add(FemaleRB);
-		
-		ButtonGroup group = new ButtonGroup();		
+
+		ButtonGroup group = new ButtonGroup();
 		group.add(MaleRB);
 		group.add(FemaleRB);
 
 		JLabel dobLabel = new JLabel("Date of Birth");
 		dobLabel.setForeground(new Color(0, 0, 0));
 		dobLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		dobLabel.setBounds(71, 262, 115, 29);
+		dobLabel.setBounds(45, 264, 115, 29);
 		registerPanel.add(dobLabel);
 
 		JLabel mobileNoError = new JLabel("* Incorrect Number");
@@ -251,8 +261,8 @@ public class RegistrationPage extends JFrame {
 		mobileNoError.setForeground(new Color(255, 0, 0));
 		mobileNoError.setHorizontalTextPosition(SwingConstants.RIGHT);
 		mobileNoError.setHorizontalAlignment(SwingConstants.RIGHT);
-		mobileNoError.setFont(new Font("Euclid Circular A", Font.PLAIN, 12));
-		mobileNoError.setBounds(244, 118, 137, 27);
+		mobileNoError.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		mobileNoError.setBounds(175, 113, 180, 27);
 		registerPanel.add(mobileNoError);
 
 		JLabel emailError = new JLabel("* Incorrect Email-ID");
@@ -260,54 +270,283 @@ public class RegistrationPage extends JFrame {
 		emailError.setHorizontalTextPosition(SwingConstants.RIGHT);
 		emailError.setHorizontalAlignment(SwingConstants.RIGHT);
 		emailError.setForeground(Color.RED);
-		emailError.setFont(new Font("Euclid Circular A", Font.PLAIN, 12));
-		emailError.setBounds(244, 192, 113, 25);
+		emailError.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		emailError.setBounds(218, 192, 137, 25);
 		registerPanel.add(emailError);
 
 		JLabel addressLabel = new JLabel("Address");
+		addressLabel.setForeground(new Color(0, 0, 0));
 		addressLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		addressLabel.setBounds(456, 11, 132, 29);
+		addressLabel.setBounds(466, 35, 132, 29);
 		registerPanel.add(addressLabel);
 
-		JLabel lblCity = new JLabel("Password");
-		lblCity.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblCity.setBounds(430, 188, 105, 29);
-		registerPanel.add(lblCity);
+		JLabel passwordLabel = new JLabel("Password");
+		passwordLabel.setForeground(new Color(0, 0, 0));
+		passwordLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		passwordLabel.setBounds(466, 188, 105, 29);
+		registerPanel.add(passwordLabel);
 
-		JLabel lblState = new JLabel("Confirm Password");
-		lblState.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblState.setBounds(430, 262, 201, 29);
-		registerPanel.add(lblState);
+		JLabel confirmPassLabel = new JLabel("Confirm Password");
+		confirmPassLabel.setForeground(new Color(0, 0, 0));
+		confirmPassLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		confirmPassLabel.setBounds(466, 264, 201, 29);
+		registerPanel.add(confirmPassLabel);
 
 		JTextArea address = new JTextArea();
-		address.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-		address.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		address.setBounds(430, 67, 310, 110);
+		address.setOpaque(false);
+		address.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		address.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		address.setBounds(466, 67, 310, 110);
 		registerPanel.add(address);
+
+		JSeparator s2 = new JSeparator();
+		s2.setForeground(new Color(0, 51, 102));
+		s2.setBackground(new Color(0, 51, 102));
+		s2.setBounds(45, 175, 310, 5);
+		registerPanel.add(s2);
+
+		mobileNo = new JTextField();
+		mobileNo.setToolTipText("");
+		mobileNo.setOpaque(false);
+		mobileNo.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		mobileNo.setColumns(10);
+		mobileNo.setCaretColor(Color.BLACK);
+		mobileNo.setBorder(null);
+		mobileNo.setBounds(45, 137, 310, 34);
+		registerPanel.add(mobileNo);
+
+		JSeparator s3 = new JSeparator();
+		s3.setPreferredSize(new Dimension(0, 3));
+		s3.setForeground(new Color(0, 51, 102));
+		s3.setBackground(new Color(0, 51, 102));
+		s3.setBounds(45, 328, 50, 10);
+		registerPanel.add(s3);
+
+		JSeparator s4 = new JSeparator();
+		s4.setSize(new Dimension(0, 2));
+		s4.setForeground(new Color(0, 51, 102));
+		s4.setBackground(new Color(0, 51, 102));
+		s4.setBounds(139, 328, 50, 10);
+		registerPanel.add(s4);
+
+		JSeparator s5 = new JSeparator();
+		s5.setForeground(new Color(0, 51, 102));
+		s5.setBackground(new Color(0, 51, 102));
+		s5.setBounds(232, 328, 50, 10);
+		registerPanel.add(s5);
+
+		JYearChooser year = new JYearChooser();
+		year.setStartYear(0);
+		year.setYear(0);
+		year.setValue(0);
+		year.setMaximum(2022);
+		year.setMinimum(1900);
+		year.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		year.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		year.getSpinner().setBounds(0, 0, 66, 30);
+		year.setBounds(232, 301, 66, 30);
+		registerPanel.add(year);
+		year.setLayout(null);
+
+		JYearChooser month = new JYearChooser();
+		month.setYear(0);
+		month.setStartYear(0);
+		month.getSpinner().setBounds(0, 0, 66, 30);
+		month.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		month.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		month.setMaximum(12);
+		month.setValue(0);
+		month.setBounds(139, 301, 66, 30);
+		registerPanel.add(month);
+		month.setLayout(null);
+
+		JYearChooser day = new JYearChooser();
+		day.setValue(0);
+		day.setStartYear(0);
+		day.setYear(0);
+		day.setOpaque(false);
+		day.getSpinner().setForeground(new Color(0, 0, 0));
+		day.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		day.setMaximum(31);
+		day.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		day.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		day.getSpinner().setBounds(0, 0, 66, 30);
+		day.setBounds(45, 301, 66, 30);
+		registerPanel.add(day);
+		day.setLayout(null);
+
+		confirmPassword = new JPasswordField();
+		confirmPassword.setOpaque(false);
+		confirmPassword.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		confirmPassword.setBorder(null);
+		confirmPassword.setBounds(466, 291, 310, 34);
+		registerPanel.add(confirmPassword);
+
+		JSeparator s8 = new JSeparator();
+		s8.setForeground(new Color(0, 51, 102));
+		s8.setBackground(new Color(0, 51, 102));
+		s8.setBounds(466, 326, 310, 5);
+		registerPanel.add(s8);
+
+		JSeparator middleSep = new JSeparator();
+		middleSep.setBorder(new LineBorder(new Color(0, 51, 102), 2));
+		middleSep.setForeground(new Color(0, 51, 102));
+		middleSep.setBackground(new Color(0, 51, 102));
+		middleSep.setOrientation(SwingConstants.VERTICAL);
+		middleSep.setBounds(410, 35, 3, 384);
+		registerPanel.add(middleSep);
+
+		JLabel req1 = new JLabel("* Required");
+		req1.setVisible(false);
+		req1.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req1.setHorizontalAlignment(SwingConstants.RIGHT);
+		req1.setForeground(Color.RED);
+		req1.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req1.setBounds(250, 35, 105, 29);
+		registerPanel.add(req1);
+
+		JLabel req3 = new JLabel("* Required");
+		req3.setVisible(false);
+		req3.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req3.setHorizontalAlignment(SwingConstants.RIGHT);
+		req3.setForeground(Color.RED);
+		req3.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req3.setBounds(671, 35, 105, 29);
+		registerPanel.add(req3);
+
+		JLabel req4 = new JLabel("* Required");
+		req4.setVisible(false);
+		req4.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req4.setHorizontalAlignment(SwingConstants.RIGHT);
+		req4.setForeground(Color.RED);
+		req4.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req4.setBounds(671, 188, 105, 29);
+		registerPanel.add(req4);
+
+		JLabel req5 = new JLabel("* Required");
+		req5.setVisible(false);
+		req5.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req5.setHorizontalAlignment(SwingConstants.RIGHT);
+		req5.setForeground(Color.RED);
+		req5.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req5.setBounds(671, 264, 105, 29);
+		registerPanel.add(req5);
+
+		JLabel req2 = new JLabel("* Required");
+		req2.setVisible(false);
+		req2.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req2.setHorizontalAlignment(SwingConstants.RIGHT);
+		req2.setForeground(Color.RED);
+		req2.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req2.setBounds(250, 361, 105, 29);
+		registerPanel.add(req2);
+
+		JLabel req6 = new JLabel("* Required");
+		req6.setVisible(false);
+		req6.setHorizontalTextPosition(SwingConstants.RIGHT);
+		req6.setHorizontalAlignment(SwingConstants.RIGHT);
+		req6.setForeground(Color.RED);
+		req6.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		req6.setBounds(240, 265, 115, 29);
+		registerPanel.add(req6);
+
+		JLabel dayMonthYear = new JLabel("Day                 Month            Year");
+		dayMonthYear.setHorizontalTextPosition(SwingConstants.RIGHT);
+		dayMonthYear.setHorizontalAlignment(SwingConstants.LEFT);
+		dayMonthYear.setForeground(new Color(0, 51, 102));
+		dayMonthYear.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		dayMonthYear.setBounds(45, 328, 253, 29);
+		registerPanel.add(dayMonthYear);
 
 		JButton submit = new JButton("SUBMIT");
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pattern ptr = Pattern.compile("(0/+91)?[6-9][0-9]{9}");
-				Matcher match = ptr.matcher(mobileNo.getText());
-				boolean validateMobileNo = match.find() && match.group().equals(mobileNo.getText());
-				if (validateMobileNo) {
-					mobileNoError.setVisible(false);
+				boolean valName, valMobileNo, valEmail, valDob, valGender, valAddress, valPass, valConfPass;
+				Pattern ptr;
+				Matcher match;
+
+				valName = fullName.getText().equals("");
+				if (valName) {
+					req1.setVisible(true);
 				} else {
+					req1.setVisible(false);
+				}
+
+				valGender = group.isSelected(null);
+				if (valGender) {
+					req2.setVisible(true);
+				} else {
+					req2.setVisible(false);
+				}
+
+				valAddress = address.getText().equals("");
+				if (valAddress) {
+					req3.setVisible(true);
+				} else {
+					req3.setVisible(false);
+				}
+
+				valPass = String.valueOf(password.getPassword()).equals("");
+				if (valPass) {
+					req4.setVisible(true);
+				} else {
+					req4.setVisible(false);
+				}
+
+				valConfPass = String.valueOf(confirmPassword.getPassword()).equals("");
+				if (valConfPass) {
+					req5.setVisible(true);
+				} else {
+					req5.setVisible(false);
+				}
+
+				valDob = (day.getValue() == 0) || (month.getValue() == 0) || (year.getValue() == 0);
+				if (valDob) {
+					req6.setVisible(true);
+				} else {
+					req6.setVisible(false);
+				}
+
+				valMobileNo = mobileNo.getText().equals("");
+				if (valMobileNo) {
+					mobileNoError.setText("* Required");
 					mobileNoError.setVisible(true);
-				}
-				ptr = Pattern.compile("[a-zA-Z0-9]{3,20}@[A-Za-z]{3,10}.(com|in)");
-				match = ptr.matcher(emailID.getText());
-				boolean validateEmail = match.find() && match.group().equals(emailID.getText());
-				if (validateEmail) {
-					emailError.setVisible(false);
 				} else {
-					emailError.setVisible(true);
+					ptr = Pattern.compile("(0/+91)?[6-9][0-9]{9}");
+					match = ptr.matcher(mobileNo.getText());
+					valMobileNo = !(match.find() && match.group().equals(mobileNo.getText()));
+					if (valMobileNo) {
+						mobileNoError.setText("* Incorrect Mobile Number");
+						mobileNoError.setVisible(true);
+					} else {
+						mobileNoError.setVisible(false);
+					}
 				}
-				if (validateMobileNo && validateEmail) {
-					LoginPage lp = new LoginPage();
-					lp.setVisible(true);
-					setVisible(false);
+
+				valEmail = emailID.getText().equals("");
+				if (valEmail) {
+					valEmail = false;
+				} else {
+					ptr = Pattern.compile("[a-zA-Z0-9]{3,20}@[A-Za-z]{3,10}.(com|in)");
+					match = ptr.matcher(emailID.getText());
+					valEmail = !(match.find() && match.group().equals(emailID.getText()));
+					if (valEmail) {
+						emailError.setVisible(true);
+					} else {
+						emailError.setVisible(false);
+					}
+				}
+
+				if (!(valName || valMobileNo || valEmail || valDob || valGender || valAddress || valPass
+						|| valConfPass)) {
+					if (String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword()))) {
+						LoginPage lp = new LoginPage();
+						lp.setLocationRelativeTo(null);
+						lp.setVisible(true);
+						setVisible(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "Passwords don't match", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -315,7 +554,7 @@ public class RegistrationPage extends JFrame {
 		submit.setBackground(new Color(0, 128, 0));
 		submit.setBorderPainted(false);
 		submit.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		submit.setBounds(266, 429, 115, 42);
+		submit.setBounds(466, 377, 115, 42);
 		registerPanel.add(submit);
 
 		JButton reset = new JButton("RESET");
@@ -335,90 +574,15 @@ public class RegistrationPage extends JFrame {
 		reset.setBackground(new Color(255, 0, 0));
 		reset.setBorderPainted(false);
 		reset.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		reset.setBounds(430, 429, 115, 42);
+		reset.setBounds(661, 377, 115, 42);
 		registerPanel.add(reset);
-		
-		password = new JPasswordField();
-		password.setBounds(430, 218, 310, 35);
-		registerPanel.add(password);
-		
-		confirmPassword = new JPasswordField();
-		confirmPassword.setBounds(430, 293, 310, 35);
-		registerPanel.add(confirmPassword);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(new Color(0, 51, 102));
-		separator_1.setBackground(new Color(0, 51, 102));
-		separator_1.setBounds(71, 175, 310, 5);
-		registerPanel.add(separator_1);
-		
-		mobileNo = new JTextField();
-		mobileNo.setToolTipText("");
-		mobileNo.setOpaque(false);
-		mobileNo.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		mobileNo.setColumns(10);
-		mobileNo.setCaretColor(Color.BLACK);
-		mobileNo.setBorder(null);
-		mobileNo.setBounds(71, 142, 310, 34);
-		registerPanel.add(mobileNo);
-		
-		JSeparator separator_1_1 = new JSeparator();
-		separator_1_1.setForeground(new Color(0, 51, 102));
-		separator_1_1.setBackground(new Color(0, 51, 102));
-		separator_1_1.setBounds(71, 321, 50, 10);
-		registerPanel.add(separator_1_1);
-		
-		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setForeground(new Color(0, 51, 102));
-		separator_1_1_1.setBackground(new Color(0, 51, 102));
-		separator_1_1_1.setBounds(165, 321, 50, 10);
-		registerPanel.add(separator_1_1_1);
-		
-		JSeparator separator_1_1_1_1 = new JSeparator();
-		separator_1_1_1_1.setForeground(new Color(0, 51, 102));
-		separator_1_1_1_1.setBackground(new Color(0, 51, 102));
-		separator_1_1_1_1.setBounds(258, 321, 50, 10);
-		registerPanel.add(separator_1_1_1_1);
-		
-		JYearChooser year = new JYearChooser();
-		year.setMaximum(2022);
-		year.setMinimum(1900);
-		year.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		year.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		year.getSpinner().setBounds(0, 0, 66, 30);
-		year.setBounds(258, 293, 66, 30);
-		registerPanel.add(year);
-		year.setLayout(null);
-		
-		JYearChooser month = new JYearChooser();
-		month.getSpinner().setBounds(0, 0, 66, 30);
-		month.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		month.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		month.setMaximum(12);
-		month.setValue(1);
-		month.setBounds(165, 293, 66, 30);
-		registerPanel.add(month);
-		month.setLayout(null);
-		
-		JYearChooser day = new JYearChooser();
-		day.setOpaque(false);
-		day.getSpinner().setForeground(new Color(0, 0, 0));
-		day.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		day.setMaximum(31);
-		day.setValue(1);
-		day.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		day.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		day.getSpinner().setBounds(0, 0, 66, 30);
-		day.setBounds(71, 293, 66, 30);
-		registerPanel.add(day);
-		day.setLayout(null);
 
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setAutoscrolls(true);
 		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
 		backgroundImg.setIcon(new ImageIcon(image));
 		backgroundImg.setAlignmentY(0.0f);
-		backgroundImg.setBounds(0, 0, 900, 700);
+		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
 	}
 }
