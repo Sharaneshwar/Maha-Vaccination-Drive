@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -41,7 +43,7 @@ public class HomePage extends JFrame {
 	public HomePage() {
 		setBackground(new Color(240, 230, 140));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -65,8 +67,12 @@ public class HomePage extends JFrame {
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				dispose();
+				int choice = JOptionPane.showConfirmDialog(null, "Do you really want to exit?", "Alert",
+						JOptionPane.YES_NO_OPTION);
+				if (choice == JOptionPane.YES_OPTION) {
+					setVisible(false);
+					dispose();
+				}
 			}
 		});
 		closeLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -134,7 +140,7 @@ public class HomePage extends JFrame {
 		login.setFont(new Font("Teko", Font.BOLD, 19));
 		login.setBorder(null);
 		login.setBackground(new Color(0, 51, 102));
-		login.setBounds(531, 146, 113, 46);
+		login.setBounds(531, 162, 113, 46);
 		contentPane.add(login);
 		
 		JButton register = new JButton("REGISTER");
@@ -155,13 +161,13 @@ public class HomePage extends JFrame {
 		register.setFont(new Font("Teko", Font.BOLD, 19));
 		register.setBorderPainted(false);
 		register.setBackground(new Color(0, 51, 102));
-		register.setBounds(654, 146, 113, 46);
+		register.setBounds(654, 162, 113, 46);
 		contentPane.add(register);
 		
 		JLabel indiaMap = new JLabel("");
 		image = new ImageIcon(this.getClass().getResource("/india_map.png")).getImage();
 		indiaMap.setIcon(new ImageIcon(image));
-		indiaMap.setBounds(54, 146, 415, 445);
+		indiaMap.setBounds(80, 162, 389, 445);
 		getContentPane().add(indiaMap);
 		
 		JLabel quote = new JLabel("<html><center>\r\nIndia is set to defeat Covid-19.\r\n<br>\r\nEvery Indian is making it possible.\r\n<br>\r\n<strong>PM Narendra Modi<strong>\r\n</center></html>");
@@ -170,20 +176,20 @@ public class HomePage extends JFrame {
 		quote.setHorizontalAlignment(SwingConstants.CENTER);
 		quote.setVerticalAlignment(SwingConstants.TOP);
 		quote.setFont(new Font("Poppins Medium", Font.PLAIN, 18));
-		quote.setBounds(461, 475, 377, 100);
+		quote.setBounds(462, 507, 377, 100);
 		contentPane.add(quote);
 		
 		JLabel pmImg = new JLabel("");
 		image = new ImageIcon(this.getClass().getResource("/pm.png")).getImage();
 		pmImg.setIcon(new ImageIcon(image));
-		pmImg.setBounds(531, 228, 236, 236);
+		pmImg.setBounds(531, 242, 236, 236);
 		contentPane.add(pmImg);
 		
 		JLabel backgroundImg = new JLabel("");
 		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
 		backgroundImg.setIcon(new ImageIcon(image));
 		backgroundImg.setAlignmentY(0.0f);
-		backgroundImg.setBounds(0, 0, 900, 600);
+		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
 	}
 }

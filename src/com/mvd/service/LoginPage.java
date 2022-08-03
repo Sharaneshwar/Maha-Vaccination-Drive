@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JSeparator;
 
 public class LoginPage extends JFrame {
 
@@ -46,7 +49,7 @@ public class LoginPage extends JFrame {
 	 */
 	public LoginPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -55,6 +58,17 @@ public class LoginPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setUndecorated(true);
+		
+		JLabel LoginLabel = new JLabel("LOGIN");
+		Image image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
+		LoginLabel.setIcon(new ImageIcon(image));
+		LoginLabel.setBounds(542, 185, 122, 35);
+		contentPane.add(LoginLabel);
+		LoginLabel.setForeground(new Color(0, 51, 102));
+		LoginLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 30));
+		LoginLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		LoginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		LoginLabel.setBackground(new Color(238, 232, 170));
 		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setLayout(null);
@@ -65,13 +79,17 @@ public class LoginPage extends JFrame {
 		contentPane.add(headerPanel);
 		
 		JLabel closeLabel = new JLabel();
-		Image image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
+		image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
 		closeLabel.setIcon(new ImageIcon(image));
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				dispose();
+				int choice = JOptionPane.showConfirmDialog(null, "Do you really want to exit?", "Alert",
+						JOptionPane.YES_NO_OPTION);
+				if (choice == JOptionPane.YES_OPTION) {
+					setVisible(false);
+					dispose();
+				}
 			}
 		});
 		closeLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -79,16 +97,26 @@ public class LoginPage extends JFrame {
 		closeLabel.setBounds(872, 3, 25, 25);
 		headerPanel.add(closeLabel);
 		
-		JLabel LoginLabel = new JLabel("LOGIN");
+		JLabel homeLabel = new JLabel();
+		image = new ImageIcon(this.getClass().getResource("/homelogo.png")).getImage();
+		homeLabel.setIcon(new ImageIcon(image));
+		homeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int choice = JOptionPane.showConfirmDialog(null, "Do you want to cancel the registration?");
+				if (choice == JOptionPane.YES_OPTION) {
+					HomePage hPage = new HomePage();
+					hPage.setLocationRelativeTo(null);
+					hPage.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
+		homeLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+		homeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		homeLabel.setBounds(3, 3, 25, 25);
+		headerPanel.add(homeLabel);
 		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		LoginLabel.setIcon(new ImageIcon(image));
-		LoginLabel.setBounds(389, 186, 122, 35);
-		contentPane.add(LoginLabel);
-		LoginLabel.setForeground(new Color(0, 51, 102));
-		LoginLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 30));
-		LoginLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		LoginLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		LoginLabel.setBackground(new Color(238, 232, 170));
 		
 		JLabel leftHeading = new JLabel("<HTML>\r\nMINISTRY OF <BR>\r\n<b>HEALTH </b> AND <BR>\r\n<b>FAMILY WELFARE</b><br>\r\nGOVERNMENT OF INDIA\r\n</HTML>");
 		leftHeading.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -135,26 +163,26 @@ public class LoginPage extends JFrame {
 		JPanel registerPanel = new JPanel();
 		registerPanel.setBorder(new LineBorder(new Color(0, 51, 102), 3, true));
 		registerPanel.setOpaque(false);
-		registerPanel.setBounds(206, 202, 487, 312);
+		registerPanel.setBounds(112, 202, 675, 366);
 		contentPane.add(registerPanel);
 		registerPanel.setFont(new Font("Product Sans", Font.PLAIN, 16));
 		registerPanel.setBackground(new Color(135, 206, 235));
 		registerPanel.setLayout(null);
 		
+		JLabel loginImg = new JLabel("");
+		image = new ImageIcon(this.getClass().getResource("/loginImg.png")).getImage();
+		loginImg.setIcon(new ImageIcon(image));
+		loginImg.setBounds(3, 3, 300, 360);
+		registerPanel.add(loginImg);
+		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblUsername.setBounds(118, 54, 105, 29);
+		lblUsername.setBounds(366, 62, 105, 29);
 		registerPanel.add(lblUsername);
-		
-		username = new JTextField();
-		username.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
-		username.setColumns(10);
-		username.setBounds(118, 85, 249, 34);
-		registerPanel.add(username);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblPassword.setBounds(118, 130, 105, 29);
+		lblPassword.setBounds(366, 138, 105, 29);
 		registerPanel.add(lblPassword);
 		
 		JButton btnLogin = new JButton("LOGIN");
@@ -162,19 +190,60 @@ public class LoginPage extends JFrame {
 		btnLogin.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
 		btnLogin.setBorderPainted(false);
 		btnLogin.setBackground(new Color(0, 128, 0));
-		btnLogin.setBounds(186, 237, 115, 42);
+		btnLogin.setBounds(434, 240, 115, 42);
 		registerPanel.add(btnLogin);
 		
+		JSeparator middleSep = new JSeparator();
+		middleSep.setOrientation(SwingConstants.VERTICAL);
+		middleSep.setForeground(new Color(0, 51, 102));
+		middleSep.setBorder(new LineBorder(new Color(0, 51, 102), 2));
+		middleSep.setBackground(new Color(0, 51, 102));
+		middleSep.setBounds(303, 0, 2, 384);
+		registerPanel.add(middleSep);
+		
+		JSeparator s1 = new JSeparator();
+		s1.setForeground(new Color(0, 51, 102));
+		s1.setBackground(new Color(0, 51, 102));
+		s1.setBounds(366, 121, 250, 5);
+		registerPanel.add(s1);
+		
+		username = new JTextField();
+		username.setToolTipText("");
+		username.setOpaque(false);
+		username.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		username.setColumns(10);
+		username.setCaretColor(Color.BLACK);
+		username.setBorder(null);
+		username.setBounds(366, 88, 250, 34);
+		registerPanel.add(username);
+		
+		JSeparator s2 = new JSeparator();
+		s2.setForeground(new Color(0, 51, 102));
+		s2.setBackground(new Color(0, 51, 102));
+		s2.setBounds(366, 196, 250, 5);
+		registerPanel.add(s2);
+		
 		password = new JPasswordField();
-		password.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
-		password.setBounds(118, 160, 249, 34);
+		password.setOpaque(false);
+		password.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		password.setBorder(null);
+		password.setBounds(366, 160, 250, 34);
 		registerPanel.add(password);
+		
+		JLabel loginError = new JLabel("<html><center>\r\n* Incorrect Username or Password *<br>\r\nPlease try again!\r\n</center></html>");
+		loginError.setVisible(false);
+		loginError.setForeground(Color.RED);
+		loginError.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		loginError.setHorizontalTextPosition(SwingConstants.CENTER);
+		loginError.setHorizontalAlignment(SwingConstants.CENTER);
+		loginError.setBounds(366, 299, 250, 42);
+		registerPanel.add(loginError);
 		
 		JLabel backgroundImg = new JLabel("");
 		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
 		backgroundImg.setIcon(new ImageIcon(image));
 		backgroundImg.setAlignmentY(0.0f);
-		backgroundImg.setBounds(0, 0, 900, 600);
+		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
 	}
 }
