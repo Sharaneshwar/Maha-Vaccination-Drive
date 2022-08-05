@@ -62,6 +62,7 @@ public class HomePage extends JFrame {
 		headerPanel.setLayout(null);
 		
 		JLabel closeLabel = new JLabel();
+		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		Image image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
 		closeLabel.setIcon(new ImageIcon(image));
 		closeLabel.addMouseListener(new MouseAdapter() {

@@ -34,6 +34,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import com.toedter.calendar.JYearChooser;
 import java.awt.Dimension;
+import java.awt.Cursor;
 
 public class RegistrationPage extends JFrame {
 
@@ -89,6 +90,7 @@ public class RegistrationPage extends JFrame {
 		contentPane.add(headerPanel);
 
 		JLabel closeLabel = new JLabel();
+		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		Image image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
 		closeLabel.setIcon(new ImageIcon(image));
 		closeLabel.addMouseListener(new MouseAdapter() {
@@ -108,6 +110,7 @@ public class RegistrationPage extends JFrame {
 		headerPanel.add(closeLabel);
 
 		JLabel homeLabel = new JLabel();
+		homeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		image = new ImageIcon(this.getClass().getResource("/homelogo.png")).getImage();
 		homeLabel.setIcon(new ImageIcon(image));
 		homeLabel.addMouseListener(new MouseAdapter() {
@@ -485,10 +488,18 @@ public class RegistrationPage extends JFrame {
 		dayMonthYear.setBounds(45, 328, 253, 29);
 		registerPanel.add(dayMonthYear);
 
+		JLabel passwordError = new JLabel("* Passwords don't match");
+		passwordError.setVisible(false);
+		passwordError.setForeground(Color.RED);
+		passwordError.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		passwordError.setBounds(465, 336, 202, 23);
+		registerPanel.add(passwordError);
+
 		JButton submit = new JButton("SUBMIT");
+		submit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean valName, valMobileNo, valEmail, valGender, valAddress, valPass, valConfPass;
+				boolean valName, valMobileNo, valEmail, valGender, valAddress, valPass, valConfPass, valSamePass;
 				Pattern ptr;
 				Matcher match;
 
@@ -556,39 +567,42 @@ public class RegistrationPage extends JFrame {
 						emailError.setVisible(false);
 					}
 				}
+				
+				valSamePass = !(String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword())));
+				if (valSamePass) {
+					passwordError.setVisible(true);
+				} else {
+					passwordError.setVisible(false);
+				}
 
-				if (!(valName || valMobileNo || valEmail || valGender || valAddress || valPass || valConfPass)) {
-					if (String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword()))) {
-						ArrayList<String> al = new ArrayList<String>();
-						String dobString = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-" + String.format("%02d", day.getValue());
-						al.add(fullName.getText());
-						al.add(dobString);
-						al.add(mobileNo.getText());
-						al.add(emailID.getText());
-						al.add(address.getText());
-						if(MaleRB.isSelected()) {
-							al.add("Male");
-						} else {
-							al.add("Female");							
-						}
-						al.add(String.valueOf(password.getPassword()));
-
-						InsertOperations io = new InsertOperations();
-						int rows = io.insert_into_registration_table(al);
-						if (rows == 0) {
-							JOptionPane.showMessageDialog(null, "Registration Failed! Try Again", "Failed",
-									JOptionPane.ERROR_MESSAGE);
-						} else {
-							JOptionPane.showMessageDialog(null, "Registration Done Successfully", "Success",
-									JOptionPane.INFORMATION_MESSAGE);
-							LoginPage lp = new LoginPage();
-							lp.setLocationRelativeTo(null);
-							lp.setVisible(true);
-							setVisible(false);
-						}
+				if (!(valName || valMobileNo || valEmail || valGender || valAddress || valPass || valConfPass || valSamePass)) {
+					ArrayList<String> al = new ArrayList<String>();
+					String dobString = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
+							+ String.format("%02d", day.getValue());
+					al.add(fullName.getText());
+					al.add(dobString);
+					al.add(mobileNo.getText());
+					al.add(emailID.getText());
+					al.add(address.getText());
+					if (MaleRB.isSelected()) {
+						al.add("Male");
 					} else {
-						JOptionPane.showMessageDialog(null, "Passwords don't match", "Error",
+						al.add("Female");
+					}
+					al.add(String.valueOf(password.getPassword()));
+
+					InsertOperations io = new InsertOperations();
+					int rows = io.insert_into_registration_table(al);
+					if (rows == 0) {
+						JOptionPane.showMessageDialog(null, "Registration Failed! Try Again", "Failed",
 								JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Registration Done Successfully", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+						LoginPage lp = new LoginPage();
+						lp.setLocationRelativeTo(null);
+						lp.setVisible(true);
+						setVisible(false);
 					}
 				}
 			}
@@ -601,20 +615,20 @@ public class RegistrationPage extends JFrame {
 		registerPanel.add(submit);
 
 		JButton reset = new JButton("RESET");
+		reset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fullName.setText("");
 				mobileNo.setText("");
 				emailID.setText("");
 				address.setText("");
-				MaleRB.setSelected(false);
-				FemaleRB.setSelected(false);
+				group.clearSelection();
 				day.setValue(1);
 				month.setValue(1);
 				year.setValue(2022);
 				password.setText("");
 				confirmPassword.setText("");
-				
+
 				req1.setVisible(false);
 				req2.setVisible(false);
 				req3.setVisible(false);
