@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -91,8 +90,7 @@ public class RegistrationPage extends JFrame {
 
 		JLabel closeLabel = new JLabel();
 		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		Image image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
-		closeLabel.setIcon(new ImageIcon(image));
+		closeLabel.setIcon(new ImageIcon(RegistrationPage.class.getResource("/resources/exitButton.png")));
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -111,8 +109,7 @@ public class RegistrationPage extends JFrame {
 
 		JLabel homeLabel = new JLabel();
 		homeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		image = new ImageIcon(this.getClass().getResource("/homelogo.png")).getImage();
-		homeLabel.setIcon(new ImageIcon(image));
+		homeLabel.setIcon(new ImageIcon(RegistrationPage.class.getResource("/resources/homelogo.png")));
 		homeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -170,14 +167,12 @@ public class RegistrationPage extends JFrame {
 		headerPanel.add(rightHeading);
 
 		JLabel headerImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/header.jpg")).getImage();
-		headerImg.setIcon(new ImageIcon(image));
+		headerImg.setIcon(new ImageIcon(RegistrationPage.class.getResource("/resources/header.jpg")));
 		headerImg.setBounds(0, 0, 900, 118);
 		headerPanel.add(headerImg);
 
 		JLabel RegisterLabel = new JLabel("REGISTER YOURSELF TO PROTECT THE NATION");
-		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		RegisterLabel.setIcon(new ImageIcon(image));
+		RegisterLabel.setIcon(new ImageIcon(RegistrationPage.class.getResource("/resources/bg.png")));
 		RegisterLabel.setForeground(new Color(0, 51, 102));
 		RegisterLabel.setBounds(179, 152, 531, 20);
 		contentPane.add(RegisterLabel);
@@ -648,8 +643,7 @@ public class RegistrationPage extends JFrame {
 
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setAutoscrolls(true);
-		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		backgroundImg.setIcon(new ImageIcon(image));
+		backgroundImg.setIcon(new ImageIcon(RegistrationPage.class.getResource("/resources/bg.png")));
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);

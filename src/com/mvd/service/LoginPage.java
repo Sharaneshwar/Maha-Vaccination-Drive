@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -69,8 +68,7 @@ public class LoginPage extends JFrame {
 		setUndecorated(true);
 
 		JLabel LoginLabel = new JLabel("LOGIN");
-		Image image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		LoginLabel.setIcon(new ImageIcon(image));
+		LoginLabel.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
 		LoginLabel.setBounds(546, 167, 122, 35);
 		contentPane.add(LoginLabel);
 		LoginLabel.setForeground(new Color(0, 51, 102));
@@ -89,8 +87,7 @@ public class LoginPage extends JFrame {
 
 		JLabel closeLabel = new JLabel();
 		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
-		closeLabel.setIcon(new ImageIcon(image));
+		closeLabel.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/exitButton.png")));
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -109,8 +106,7 @@ public class LoginPage extends JFrame {
 
 		JLabel homeLabel = new JLabel();
 		homeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		image = new ImageIcon(this.getClass().getResource("/homelogo.png")).getImage();
-		homeLabel.setIcon(new ImageIcon(image));
+		homeLabel.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/homelogo.png")));
 		homeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -128,7 +124,6 @@ public class LoginPage extends JFrame {
 		homeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		homeLabel.setBounds(3, 3, 25, 25);
 		headerPanel.add(homeLabel);
-		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
 
 		JLabel leftHeading = new JLabel(
 				"<HTML>\r\nMINISTRY OF <BR>\r\n<b>HEALTH </b> AND <BR>\r\n<b>FAMILY WELFARE</b><br>\r\nGOVERNMENT OF INDIA\r\n</HTML>");
@@ -169,8 +164,7 @@ public class LoginPage extends JFrame {
 		headerPanel.add(rightHeading);
 
 		JLabel headerImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/header.jpg")).getImage();
-		headerImg.setIcon(new ImageIcon(image));
+		headerImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/header.jpg")));
 		headerImg.setBounds(0, 0, 900, 118);
 		headerPanel.add(headerImg);
 
@@ -184,8 +178,7 @@ public class LoginPage extends JFrame {
 		registerPanel.setLayout(null);
 
 		JLabel loginImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/Login_Image.png")).getImage();
-		loginImg.setIcon(new ImageIcon(image));
+		loginImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/Login_Image.png")));
 		loginImg.setBounds(3, 3, 322, 394);
 		registerPanel.add(loginImg);
 
@@ -196,7 +189,7 @@ public class LoginPage extends JFrame {
 
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblPassword.setBounds(414, 138, 105, 29);
+		lblPassword.setBounds(414, 145, 105, 29);
 		registerPanel.add(lblPassword);
 
 		JSeparator middleSep = new JSeparator();
@@ -328,8 +321,7 @@ public class LoginPage extends JFrame {
 		registerPanel.add(register);
 
 		JLabel backgroundImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		backgroundImg.setIcon(new ImageIcon(image));
+		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);

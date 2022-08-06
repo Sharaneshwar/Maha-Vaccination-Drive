@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -63,8 +62,7 @@ public class HomePage extends JFrame {
 		
 		JLabel closeLabel = new JLabel();
 		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		Image image = new ImageIcon(this.getClass().getResource("/exitButton.png")).getImage();
-		closeLabel.setIcon(new ImageIcon(image));
+		closeLabel.setIcon(new ImageIcon(HomePage.class.getResource("/resources/exitButton.png")));
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -118,8 +116,7 @@ public class HomePage extends JFrame {
 		headerPanel.add(rightHeading);
 		
 		JLabel headerImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/header.jpg")).getImage();
-		headerImg.setIcon(new ImageIcon(image));
+		headerImg.setIcon(new ImageIcon(HomePage.class.getResource("/resources/header.jpg")));
 		headerImg.setBounds(0, 0, 900, 118);
 		headerPanel.add(headerImg);
 		
@@ -166,8 +163,7 @@ public class HomePage extends JFrame {
 		contentPane.add(register);
 		
 		JLabel indiaMap = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/india_map.png")).getImage();
-		indiaMap.setIcon(new ImageIcon(image));
+		indiaMap.setIcon(new ImageIcon(HomePage.class.getResource("/resources/india_map.png")));
 		indiaMap.setBounds(80, 162, 389, 445);
 		getContentPane().add(indiaMap);
 		
@@ -181,14 +177,12 @@ public class HomePage extends JFrame {
 		contentPane.add(quote);
 		
 		JLabel pmImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/pm.png")).getImage();
-		pmImg.setIcon(new ImageIcon(image));
+		pmImg.setIcon(new ImageIcon(HomePage.class.getResource("/resources/pm.png")));
 		pmImg.setBounds(531, 242, 236, 236);
 		contentPane.add(pmImg);
 		
 		JLabel backgroundImg = new JLabel("");
-		image = new ImageIcon(this.getClass().getResource("/bg.png")).getImage();
-		backgroundImg.setIcon(new ImageIcon(image));
+		backgroundImg.setIcon(new ImageIcon(HomePage.class.getResource("/resources/bg.png")));
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
