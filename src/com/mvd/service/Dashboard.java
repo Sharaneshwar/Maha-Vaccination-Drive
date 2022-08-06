@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.border.LineBorder;
 
 public class Dashboard extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -255,13 +256,31 @@ public class Dashboard extends JFrame {
 		guidelines.setFont(new Font("Teko", Font.PLAIN, 38));
 		guidelines.setBounds(0, 180, 230, 293);
 		hamburger_panel.add(guidelines);
-
-		JLabel backgroundImg = new JLabel("");
-		backgroundImg.setBorder(null);
-		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
-		backgroundImg.setAlignmentY(0.0f);
-		backgroundImg.setBounds(0, 0, 900, 650);
-		contentPane.add(backgroundImg);
+		
+		JPanel panel = new JPanel();
+		panel.setOpaque(false);
+		panel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		panel.setBounds(245, 134, 640, 500);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel m_profile_photo = new JLabel("");
+		m_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/m_profile_photo.png")));
+		m_profile_photo.setBounds(20, 20, 225, 225);
+		panel.add(m_profile_photo);
+		
+		JLabel f_profile_photo = new JLabel("");
+		f_profile_photo.setVisible(false);
+		f_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/f_profile_photo.png")));
+		f_profile_photo.setBounds(20, 20, 225, 225);
+		panel.add(f_profile_photo);
+		
+				JLabel backgroundImg = new JLabel("");
+				backgroundImg.setBorder(null);
+				backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
+				backgroundImg.setAlignmentY(0.0f);
+				backgroundImg.setBounds(0, 0, 900, 650);
+				contentPane.add(backgroundImg);
 
 	}
 }
