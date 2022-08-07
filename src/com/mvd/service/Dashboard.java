@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
+
+import com.mvd.dao.SelectOperations;
 
 public class Dashboard extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +31,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard frame = new Dashboard();
+					Dashboard frame = new Dashboard("");
 					frame.setLocationRelativeTo(null); // To set the frame at the center of screen
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -41,7 +44,10 @@ public class Dashboard extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Dashboard() {
+	public Dashboard(String username) {
+		SelectOperations so = new SelectOperations();
+		ArrayList<String> al = so.select_for_dashboard(username);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -131,6 +137,7 @@ public class Dashboard extends JFrame {
 		hamburger_panel.setLayout(null);
 
 		JPanel myProfilePanel = new JPanel();
+		myProfilePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		myProfilePanel.setBackground(new Color(0, 51, 102, 30));
 		myProfilePanel.setBounds(0, 0, 231, 60);
 		hamburger_panel.add(myProfilePanel);
@@ -154,39 +161,43 @@ public class Dashboard extends JFrame {
 		s1.setBounds(20, 15, 3, 30);
 		myProfilePanel.add(s1);
 
-		JPanel bookVaccinePanel = new JPanel();
-		bookVaccinePanel.setLayout(null);
-		bookVaccinePanel.setOpaque(false);
-		bookVaccinePanel.setBounds(0, 60, 231, 60);
-		hamburger_panel.add(bookVaccinePanel);
+		JPanel bookSlotPanel = new JPanel();
+		bookSlotPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		bookSlotPanel.setOpaque(false);
+		bookSlotPanel.setBackground(new Color(0, 51, 102, 30));
+		bookSlotPanel.setLayout(null);
+		bookSlotPanel.setBounds(0, 60, 231, 60);
+		hamburger_panel.add(bookSlotPanel);
 
 		JSeparator hs1 = new JSeparator();
 		hs1.setForeground(new Color(0, 51, 102));
 		hs1.setBackground(new Color(0, 51, 102));
 		hs1.setBounds(0, 0, 252, 12);
-		bookVaccinePanel.add(hs1);
+		bookSlotPanel.add(hs1);
 
-		JLabel label2 = new JLabel("Book Vaccine Slot");
+		JLabel label2 = new JLabel("Book Your Slot");
 		label2.setForeground(Color.BLACK);
 		label2.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
 		label2.setBounds(67, 0, 162, 60);
-		bookVaccinePanel.add(label2);
+		bookSlotPanel.add(label2);
 
 		JLabel logo2 = new JLabel("");
 		logo2.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/appointment_icon.png")));
 		logo2.setBounds(24, 0, 46, 60);
-		bookVaccinePanel.add(logo2);
+		bookSlotPanel.add(logo2);
 
 		JSeparator s2 = new JSeparator();
 		s2.setOrientation(SwingConstants.VERTICAL);
 		s2.setForeground(new Color(0, 51, 102));
 		s2.setBackground(new Color(0, 51, 102));
 		s2.setBounds(20, 15, 3, 30);
-		bookVaccinePanel.add(s2);
+		bookSlotPanel.add(s2);
 
 		JPanel viewAppointmentPanel = new JPanel();
-		viewAppointmentPanel.setLayout(null);
+		viewAppointmentPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		viewAppointmentPanel.setOpaque(false);
+		viewAppointmentPanel.setBackground(new Color(0, 51, 102, 30));
+		viewAppointmentPanel.setLayout(null);
 		viewAppointmentPanel.setBounds(0, 120, 231, 60);
 		hamburger_panel.add(viewAppointmentPanel);
 
@@ -221,8 +232,19 @@ public class Dashboard extends JFrame {
 		viewAppointmentPanel.add(hs3);
 
 		JPanel logoutPanel = new JPanel();
-		logoutPanel.setLayout(null);
+		logoutPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		logoutPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				LoginPage lp = new LoginPage();
+				lp.setLocationRelativeTo(null);
+				lp.setVisible(true);
+				setVisible(false);
+			}
+		});
 		logoutPanel.setOpaque(false);
+		logoutPanel.setBackground(new Color(0, 51, 102, 30));
+		logoutPanel.setLayout(null);
 		logoutPanel.setBounds(0, 473, 231, 60);
 		hamburger_panel.add(logoutPanel);
 
@@ -256,31 +278,183 @@ public class Dashboard extends JFrame {
 		guidelines.setFont(new Font("Teko", Font.PLAIN, 38));
 		guidelines.setBounds(0, 180, 230, 293);
 		hamburger_panel.add(guidelines);
-		
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		panel.setBounds(245, 134, 640, 500);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
+
+		JPanel myProfileSection = new JPanel();
+		myProfileSection.setOpaque(false);
+		myProfileSection.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		myProfileSection.setBounds(245, 134, 640, 500);
+		contentPane.add(myProfileSection);
+		myProfileSection.setLayout(null);
+
 		JLabel m_profile_photo = new JLabel("");
 		m_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/m_profile_photo.png")));
 		m_profile_photo.setBounds(20, 20, 225, 225);
-		panel.add(m_profile_photo);
-		
+		myProfileSection.add(m_profile_photo);
+
 		JLabel f_profile_photo = new JLabel("");
 		f_profile_photo.setVisible(false);
 		f_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/f_profile_photo.png")));
 		f_profile_photo.setBounds(20, 20, 225, 225);
-		panel.add(f_profile_photo);
-		
-				JLabel backgroundImg = new JLabel("");
-				backgroundImg.setBorder(null);
-				backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
-				backgroundImg.setAlignmentY(0.0f);
-				backgroundImg.setBounds(0, 0, 900, 650);
-				contentPane.add(backgroundImg);
+		myProfileSection.add(f_profile_photo);
+
+		if (al.get(3).equals("Female")) {
+			m_profile_photo.setVisible(false);
+			f_profile_photo.setVisible(true);
+		}
+
+		JSeparator separator = new JSeparator();
+		separator.setBackground(new Color(0, 51, 102));
+		separator.setForeground(new Color(0, 51, 102));
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(255, 40, 3, 185);
+		myProfileSection.add(separator);
+
+		JLabel name = new JLabel(al.get(0));
+		name.setForeground(Color.BLACK);
+		name.setHorizontalTextPosition(SwingConstants.CENTER);
+		name.setHorizontalAlignment(SwingConstants.LEFT);
+		name.setFont(new Font("Euclid Circular A", Font.BOLD, 24));
+		name.setBounds(278, 50, 322, 36);
+		myProfileSection.add(name);
+
+		JLabel icon_email = new JLabel("");
+		icon_email.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/ico_email.png")));
+		icon_email.setForeground(Color.DARK_GRAY);
+		icon_email.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		icon_email.setBounds(278, 104, 25, 25);
+		myProfileSection.add(icon_email);
+
+		JLabel email_ID = new JLabel(al.get(1));
+		email_ID.setForeground(Color.DARK_GRAY);
+		email_ID.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		email_ID.setBounds(313, 104, 242, 25);
+		myProfileSection.add(email_ID);
+
+		JLabel icon_mobile = new JLabel("");
+		icon_mobile.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/phone_no_ico.png")));
+		icon_mobile.setForeground(Color.DARK_GRAY);
+		icon_mobile.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		icon_mobile.setBounds(278, 140, 25, 25);
+		myProfileSection.add(icon_mobile);
+
+		JLabel mobile_no = new JLabel(username);
+		mobile_no.setForeground(Color.DARK_GRAY);
+		mobile_no.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		mobile_no.setBounds(313, 140, 242, 25);
+		myProfileSection.add(mobile_no);
+
+		JLabel icon_dob = new JLabel("");
+		icon_dob.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/birth-date-icon.png")));
+		icon_dob.setForeground(Color.DARK_GRAY);
+		icon_dob.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		icon_dob.setBounds(278, 176, 25, 25);
+		myProfileSection.add(icon_dob);
+
+		JLabel dob = new JLabel(al.get(2));
+		dob.setForeground(Color.DARK_GRAY);
+		dob.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		dob.setBounds(313, 176, 242, 25);
+		myProfileSection.add(dob);
+
+		JLabel lblVaccinationStatus = new JLabel("VACCINATION STATUS");
+		lblVaccinationStatus.setOpaque(true);
+		lblVaccinationStatus.setBackground(new Color(230, 248, 255));
+		lblVaccinationStatus.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblVaccinationStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVaccinationStatus.setForeground(new Color(0, 51, 102));
+		lblVaccinationStatus.setFont(new Font("Euclid Circular A", Font.BOLD, 24));
+		lblVaccinationStatus.setBounds(176, 252, 287, 50);
+		myProfileSection.add(lblVaccinationStatus);
+
+		JPanel status_panel = new JPanel();
+		status_panel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		status_panel.setOpaque(false);
+		status_panel.setBounds(106, 276, 427, 171);
+		myProfileSection.add(status_panel);
+		status_panel.setLayout(null);
+
+		JPanel dose1Panel = new JPanel();
+		dose1Panel.setBounds(25, 27, 175, 145);
+		status_panel.add(dose1Panel);
+		dose1Panel.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		dose1Panel.setOpaque(false);
+		dose1Panel.setLayout(null);
+
+		JLabel l1_1 = new JLabel("Dose 1");
+		l1_1.setForeground(Color.BLACK);
+		l1_1.setFont(new Font("Euclid Circular A", Font.BOLD, 20));
+		l1_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		l1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		l1_1.setBounds(35, 5, 104, 32);
+		dose1Panel.add(l1_1);
+
+		JLabel l1_2 = new JLabel("Successfully Taken");
+		l1_2.setForeground(new Color(0, 128, 0));
+		l1_2.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		l1_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		l1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		l1_2.setBounds(8, 38, 158, 26);
+		dose1Panel.add(l1_2);
+
+		JLabel green_tick = new JLabel("");
+		green_tick.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
+		green_tick.setHorizontalTextPosition(SwingConstants.CENTER);
+		green_tick.setHorizontalAlignment(SwingConstants.CENTER);
+		green_tick.setBounds(62, 72, 50, 50);
+		dose1Panel.add(green_tick);
+
+		JLabel red_cross = new JLabel("");
+		red_cross.setVisible(false);
+		red_cross.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/red_cross.png")));
+		red_cross.setHorizontalTextPosition(SwingConstants.CENTER);
+		red_cross.setHorizontalAlignment(SwingConstants.CENTER);
+		red_cross.setBounds(62, 72, 50, 50);
+		dose1Panel.add(red_cross);
+
+		JPanel dose2Panel = new JPanel();
+		dose2Panel.setBounds(225, 27, 175, 145);
+		status_panel.add(dose2Panel);
+		dose2Panel.setLayout(null);
+		dose2Panel.setOpaque(false);
+		dose2Panel.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+
+		JLabel l2_1 = new JLabel("Dose 2");
+		l2_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		l2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		l2_1.setForeground(Color.BLACK);
+		l2_1.setFont(new Font("Euclid Circular A", Font.BOLD, 20));
+		l2_1.setBounds(35, 5, 104, 32);
+		dose2Panel.add(l2_1);
+
+		JLabel l2_2 = new JLabel("Not Yet Taken");
+		l2_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		l2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		l2_2.setForeground(Color.RED);
+		l2_2.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		l2_2.setBounds(8, 38, 158, 26);
+		dose2Panel.add(l2_2);
+
+		JLabel green_tick_2 = new JLabel("");
+		green_tick_2.setVisible(false);
+		green_tick_2.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
+		green_tick_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		green_tick_2.setHorizontalAlignment(SwingConstants.CENTER);
+		green_tick_2.setBounds(62, 72, 50, 50);
+		dose2Panel.add(green_tick_2);
+
+		JLabel red_cross_2 = new JLabel("");
+		red_cross_2.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/red_cross.png")));
+		red_cross_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		red_cross_2.setHorizontalAlignment(SwingConstants.CENTER);
+		red_cross_2.setBounds(62, 72, 50, 50);
+		dose2Panel.add(red_cross_2);
+
+		JLabel backgroundImg = new JLabel("");
+		backgroundImg.setBorder(null);
+		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
+		backgroundImg.setAlignmentY(0.0f);
+		backgroundImg.setBounds(0, 0, 900, 650);
+		contentPane.add(backgroundImg);
 
 	}
 }

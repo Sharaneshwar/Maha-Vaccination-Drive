@@ -2,6 +2,7 @@ package com.mvd.dao;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -12,7 +13,6 @@ public class SelectOperations {
 	private static String url = "jdbc:mysql://localhost:3306/mvd_db";
 	private static String user = "root";
 	private static String pass = "";
-	private static String SELECT_QUERY = "SELECT MOBILE_NO, PASSWORD FROM REGISTRATION_TABLE";
 	HashMap<String, String> hm = new HashMap<String, String>();
 
 	public void select_username_password() {
@@ -23,7 +23,7 @@ public class SelectOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			rs = st.executeQuery(SELECT_QUERY);
+			rs = st.executeQuery("SELECT MOBILE_NO, PASSWORD FROM REGISTRATION_TABLE");
 			while (rs.next()) {
 				hm.put(rs.getString(1), rs.getString(2));
 			}
@@ -60,5 +60,45 @@ public class SelectOperations {
 		} else {
 			return false;
 		}
+	}
+	
+	public ArrayList<String> select_for_dashboard(String username){
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<String> al = new ArrayList<String>();
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT FULL_NAME, EMAIL_ID, DOB, GENDER FROM REGISTRATION_TABLE WHERE MOBILE_NO = " + username);
+			while (rs.next()) {
+				al.add(rs.getString("FULL_NAME"));
+				al.add(rs.getString("EMAIL_ID"));
+				al.add(rs.getString("DOB"));
+				al.add(rs.getString("GENDER"));
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return al;
 	}
 }

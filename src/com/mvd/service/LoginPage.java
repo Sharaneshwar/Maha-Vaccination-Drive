@@ -281,6 +281,10 @@ public class LoginPage extends JFrame {
 						loginError.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Login Successfull !", "Success",
 								JOptionPane.INFORMATION_MESSAGE);
+						Dashboard dboard = new Dashboard(username.getText());
+						dboard.setLocationRelativeTo(null);
+						dboard.setVisible(true);
+						setVisible(false);
 					} else {
 						loginError.setVisible(true);
 					}

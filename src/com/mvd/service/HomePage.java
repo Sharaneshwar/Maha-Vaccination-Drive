@@ -52,6 +52,7 @@ public class HomePage extends JFrame {
 		contentPane.setLayout(null);
 		setUndecorated(true);
 		
+		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		headerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
