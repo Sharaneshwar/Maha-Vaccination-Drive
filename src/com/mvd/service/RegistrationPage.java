@@ -202,7 +202,7 @@ public class RegistrationPage extends JFrame {
 		mobileLabel.setBounds(45, 110, 105, 29);
 		registerPanel.add(mobileLabel);
 
-		JLabel emailLabel = new JLabel("Email-ID (optional)");
+		JLabel emailLabel = new JLabel("Email-ID");
 		emailLabel.setForeground(new Color(0, 0, 0));
 		emailLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
 		emailLabel.setBounds(45, 188, 164, 29);
@@ -551,12 +551,14 @@ public class RegistrationPage extends JFrame {
 
 				valEmail = emailID.getText().equals("");
 				if (valEmail) {
-					valEmail = false;
+					emailError.setText("* Required");
+					emailError.setVisible(true);
 				} else {
 					ptr = Pattern.compile("[a-zA-Z0-9]{3,20}@[A-Za-z]{3,10}.(com|in)");
 					match = ptr.matcher(emailID.getText());
 					valEmail = !(match.find() && match.group().equals(emailID.getText()));
 					if (valEmail) {
+						emailError.setText("* Incorrect Email ID");
 						emailError.setVisible(true);
 					} else {
 						emailError.setVisible(false);

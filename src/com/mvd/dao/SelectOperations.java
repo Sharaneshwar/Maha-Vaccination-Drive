@@ -23,7 +23,7 @@ public class SelectOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT MOBILE_NO, PASSWORD FROM REGISTRATION_TABLE");
+			rs = st.executeQuery("SELECT EMAIL_ID, PASSWORD FROM REGISTRATION_TABLE");
 			while (rs.next()) {
 				hm.put(rs.getString(1), rs.getString(2));
 			}
@@ -71,10 +71,10 @@ public class SelectOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT FULL_NAME, EMAIL_ID, DOB, GENDER FROM REGISTRATION_TABLE WHERE MOBILE_NO = " + username);
+			rs = st.executeQuery("SELECT FULL_NAME, MOBILE_NO, DOB, GENDER FROM REGISTRATION_TABLE WHERE EMAIL_ID = '" + username + "'");
 			while (rs.next()) {
 				al.add(rs.getString("FULL_NAME"));
-				al.add(rs.getString("EMAIL_ID"));
+				al.add(rs.getString("MOBILE_NO"));
 				al.add(rs.getString("DOB"));
 				al.add(rs.getString("GENDER"));
 			}

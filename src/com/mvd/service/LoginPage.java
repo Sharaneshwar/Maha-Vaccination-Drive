@@ -184,12 +184,12 @@ public class LoginPage extends JFrame {
 
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblUsername.setBounds(414, 70, 105, 29);
+		lblUsername.setBounds(384, 69, 105, 29);
 		registerPanel.add(lblUsername);
 
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblPassword.setBounds(414, 145, 105, 29);
+		lblPassword.setBounds(384, 145, 105, 29);
 		registerPanel.add(lblPassword);
 
 		JSeparator middleSep = new JSeparator();
@@ -203,7 +203,7 @@ public class LoginPage extends JFrame {
 		JSeparator s1 = new JSeparator();
 		s1.setForeground(new Color(0, 51, 102));
 		s1.setBackground(new Color(0, 51, 102));
-		s1.setBounds(415, 129, 250, 5);
+		s1.setBounds(384, 129, 300, 5);
 		registerPanel.add(s1);
 
 		username = new JTextField();
@@ -213,20 +213,20 @@ public class LoginPage extends JFrame {
 		username.setColumns(10);
 		username.setCaretColor(Color.BLACK);
 		username.setBorder(null);
-		username.setBounds(415, 96, 250, 34);
+		username.setBounds(384, 96, 300, 34);
 		registerPanel.add(username);
 
 		JSeparator s2 = new JSeparator();
 		s2.setForeground(new Color(0, 51, 102));
 		s2.setBackground(new Color(0, 51, 102));
-		s2.setBounds(415, 204, 250, 5);
+		s2.setBounds(384, 204, 300, 5);
 		registerPanel.add(s2);
 
 		password = new JPasswordField();
 		password.setOpaque(false);
 		password.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
 		password.setBorder(null);
-		password.setBounds(415, 168, 250, 34);
+		password.setBounds(384, 168, 300, 34);
 		registerPanel.add(password);
 
 		JLabel loginError = new JLabel(
@@ -245,7 +245,7 @@ public class LoginPage extends JFrame {
 		req1.setHorizontalTextPosition(SwingConstants.RIGHT);
 		req1.setHorizontalAlignment(SwingConstants.RIGHT);
 		req1.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
-		req1.setBounds(560, 70, 105, 29);
+		req1.setBounds(560, 70, 124, 29);
 		registerPanel.add(req1);
 
 		JLabel req2 = new JLabel("* Required");
@@ -254,7 +254,7 @@ public class LoginPage extends JFrame {
 		req2.setHorizontalAlignment(SwingConstants.RIGHT);
 		req2.setForeground(Color.RED);
 		req2.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
-		req2.setBounds(560, 146, 105, 29);
+		req2.setBounds(560, 146, 123, 29);
 		registerPanel.add(req2);
 
 		JButton btnLogin = new JButton("LOGIN");
@@ -298,12 +298,12 @@ public class LoginPage extends JFrame {
 		btnLogin.setBounds(483, 234, 115, 42);
 		registerPanel.add(btnLogin);
 		
-		JLabel lblUseYourMobile = new JLabel("* Use registered mobile number as username *");
+		JLabel lblUseYourMobile = new JLabel("* Use registered email-ID as username *");
 		lblUseYourMobile.setForeground(Color.BLACK);
 		lblUseYourMobile.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblUseYourMobile.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUseYourMobile.setFont(new Font("Euclid Circular A", Font.ITALIC, 14));
-		lblUseYourMobile.setBounds(390, 29, 300, 29);
+		lblUseYourMobile.setBounds(384, 29, 300, 29);
 		registerPanel.add(lblUseYourMobile);
 		
 		JLabel register = new JLabel("<html>\r\nDon't have an account?  <u style=\"color: blue\"> Register</u>\r\n</html>");
