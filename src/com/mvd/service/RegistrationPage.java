@@ -119,7 +119,7 @@ public class RegistrationPage extends JFrame {
 					HomePage hPage = new HomePage();
 					hPage.setLocationRelativeTo(null);
 					hPage.setVisible(true);
-					setVisible(false);
+					dispose();
 				}
 			}
 		});
@@ -599,7 +599,7 @@ public class RegistrationPage extends JFrame {
 						LoginPage lp = new LoginPage();
 						lp.setLocationRelativeTo(null);
 						lp.setVisible(true);
-						setVisible(false);
+						dispose();
 					}
 				}
 			}

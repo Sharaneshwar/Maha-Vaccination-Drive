@@ -116,7 +116,7 @@ public class LoginPage extends JFrame {
 					HomePage hPage = new HomePage();
 					hPage.setLocationRelativeTo(null);
 					hPage.setVisible(true);
-					setVisible(false);
+					dispose();
 				}
 			}
 		});
@@ -284,7 +284,7 @@ public class LoginPage extends JFrame {
 						Dashboard dboard = new Dashboard(username.getText());
 						dboard.setLocationRelativeTo(null);
 						dboard.setVisible(true);
-						setVisible(false);
+						dispose();
 					} else {
 						loginError.setVisible(true);
 					}
@@ -313,7 +313,7 @@ public class LoginPage extends JFrame {
 				RegistrationPage rp = new RegistrationPage();
 				rp.setLocationRelativeTo(null);
 				rp.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		register.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.border.LineBorder;
 
+import com.mvd.dao.InsertOperations;
 import com.mvd.dao.SelectOperations;
 import com.toedter.calendar.JYearChooser;
 
@@ -27,6 +30,9 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.border.MatteBorder;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BookYourSlotPage extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -54,9 +60,6 @@ public class BookYourSlotPage extends JFrame {
 	 * Create the frame.
 	 */
 	public BookYourSlotPage(String username) {
-		SelectOperations so = new SelectOperations();
-		ArrayList<String> al = so.select_for_dashboard(username);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -147,6 +150,15 @@ public class BookYourSlotPage extends JFrame {
 		hamburger_panel.setLayout(null);
 
 		JPanel myProfilePanel = new JPanel();
+		myProfilePanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Dashboard db = new Dashboard(username);
+				db.setLocationRelativeTo(null);
+				db.setVisible(true);
+				dispose();
+			}
+		});
 		myProfilePanel.setOpaque(false);
 		myProfilePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		myProfilePanel.setBackground(new Color(0, 51, 102, 30));
@@ -249,7 +261,7 @@ public class BookYourSlotPage extends JFrame {
 				LoginPage lp = new LoginPage();
 				lp.setLocationRelativeTo(null);
 				lp.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		logoutPanel.setOpaque(false);
@@ -288,7 +300,7 @@ public class BookYourSlotPage extends JFrame {
 		guidelines.setFont(new Font("Teko", Font.PLAIN, 38));
 		guidelines.setBounds(0, 180, 230, 293);
 		hamburger_panel.add(guidelines);
-		
+
 		JLabel heading = new JLabel("NEW APPOINTMENT");
 		heading.setOpaque(true);
 		heading.setIcon(new ImageIcon(BookYourSlotPage.class.getResource("/resources/bg.png")));
@@ -305,7 +317,7 @@ public class BookYourSlotPage extends JFrame {
 		mainSection.setBounds(265, 155, 600, 460);
 		contentPane.add(mainSection);
 		mainSection.setLayout(null);
-		
+
 		aadhaarNo = new JTextField();
 		aadhaarNo.setToolTipText("");
 		aadhaarNo.setOpaque(false);
@@ -313,29 +325,29 @@ public class BookYourSlotPage extends JFrame {
 		aadhaarNo.setColumns(10);
 		aadhaarNo.setCaretColor(Color.BLACK);
 		aadhaarNo.setBorder(null);
-		aadhaarNo.setBounds(208, 59, 350, 34);
+		aadhaarNo.setBounds(208, 56, 350, 34);
 		mainSection.add(aadhaarNo);
-		
-		JSeparator s1_1 = new JSeparator();
-		s1_1.setForeground(new Color(0, 51, 102));
-		s1_1.setBackground(new Color(0, 51, 102));
-		s1_1.setBounds(208, 92, 350, 5);
-		mainSection.add(s1_1);
-		
+
+		JSeparator saadhaar = new JSeparator();
+		saadhaar.setForeground(new Color(0, 51, 102));
+		saadhaar.setBackground(new Color(0, 51, 102));
+		saadhaar.setBounds(208, 89, 350, 5);
+		mainSection.add(saadhaar);
+
 		JLabel lblAadharNo = new JLabel("Aadhaar No.");
 		lblAadharNo.setForeground(Color.BLACK);
 		lblAadharNo.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblAadharNo.setBounds(42, 68, 146, 29);
+		lblAadharNo.setBounds(42, 58, 146, 29);
 		mainSection.add(lblAadharNo);
-		
+
 		JLabel lblDateAppointment = new JLabel("<html>\r\nDate of<br>Appointment\r\n</html");
 		lblDateAppointment.setForeground(Color.BLACK);
 		lblDateAppointment.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
-		lblDateAppointment.setBounds(42, 119, 146, 51);
+		lblDateAppointment.setBounds(42, 120, 146, 51);
 		mainSection.add(lblDateAppointment);
-		
+
 		JYearChooser year = new JYearChooser();
-		year.setBounds(395, 122, 66, 30);
+		year.setBounds(395, 123, 66, 30);
 		mainSection.add(year);
 		year.setValue(0);
 		year.setStartYear(2022);
@@ -348,7 +360,7 @@ public class BookYourSlotPage extends JFrame {
 		year.setLayout(null);
 
 		JYearChooser month = new JYearChooser();
-		month.setBounds(302, 122, 66, 30);
+		month.setBounds(302, 123, 66, 30);
 		mainSection.add(month);
 		month.setYear(0);
 		month.getSpinner().setBounds(0, 0, 66, 30);
@@ -359,7 +371,7 @@ public class BookYourSlotPage extends JFrame {
 		month.setLayout(null);
 
 		JYearChooser day = new JYearChooser();
-		day.setBounds(208, 122, 66, 30);
+		day.setBounds(208, 123, 66, 30);
 		mainSection.add(day);
 		day.setValue(1);
 		day.setYear(0);
@@ -371,54 +383,176 @@ public class BookYourSlotPage extends JFrame {
 		day.getSpinner().setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
 		day.getSpinner().setBounds(0, 0, 66, 30);
 		day.setLayout(null);
-		
+
 		JLabel dayMonthYear = new JLabel("Day                 Month            Year");
-		dayMonthYear.setBounds(208, 151, 253, 29);
+		dayMonthYear.setBounds(208, 152, 253, 29);
 		mainSection.add(dayMonthYear);
 		dayMonthYear.setHorizontalTextPosition(SwingConstants.RIGHT);
 		dayMonthYear.setHorizontalAlignment(SwingConstants.LEFT);
 		dayMonthYear.setForeground(new Color(0, 51, 102));
 		dayMonthYear.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
-		
+
 		JLabel lblChooseVaccine = new JLabel("Choose Vaccine");
 		lblChooseVaccine.setForeground(Color.BLACK);
 		lblChooseVaccine.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
 		lblChooseVaccine.setBounds(42, 192, 146, 29);
 		mainSection.add(lblChooseVaccine);
-		
-		ButtonGroup group = new ButtonGroup();
-		
-		JRadioButton MaleRB = new JRadioButton("Covaxin");
-		MaleRB.setBounds(208, 194, 105, 23);
-		mainSection.add(MaleRB);
-		MaleRB.setOpaque(false);
-		MaleRB.setBackground(Color.WHITE);
-		MaleRB.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		group.add(MaleRB);
 
-		JRadioButton FemaleRB = new JRadioButton("Covishield");
-		FemaleRB.setBounds(395, 194, 115, 23);
-		mainSection.add(FemaleRB);
-		FemaleRB.setOpaque(false);
-		FemaleRB.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		FemaleRB.setBackground(Color.WHITE);
-		group.add(FemaleRB);
-		
+		ButtonGroup group = new ButtonGroup();
+
+		JRadioButton Covaxin = new JRadioButton("Covaxin");
+		Covaxin.setBounds(208, 194, 105, 23);
+		mainSection.add(Covaxin);
+		Covaxin.setOpaque(false);
+		Covaxin.setBackground(Color.WHITE);
+		Covaxin.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		Covaxin.setActionCommand("Covaxin");
+		group.add(Covaxin);
+
+		JRadioButton Covishield = new JRadioButton("Covishield");
+		Covishield.setBounds(395, 194, 115, 23);
+		mainSection.add(Covishield);
+		Covishield.setOpaque(false);
+		Covishield.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
+		Covishield.setBackground(Color.WHITE);
+		Covishield.setActionCommand("Covishield");
+		group.add(Covishield);
+
 		JLabel lblVaccineCenter = new JLabel("Vaccine Center");
 		lblVaccineCenter.setForeground(Color.BLACK);
 		lblVaccineCenter.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
 		lblVaccineCenter.setBounds(42, 243, 146, 29);
 		mainSection.add(lblVaccineCenter);
-		
-		JComboBox vaccineCenters = new JComboBox();
+
+		JComboBox<String> vaccineCenters = new JComboBox<String>();
 		vaccineCenters.setMaximumRowCount(15);
-		vaccineCenters.setModel(new DefaultComboBoxModel(new String[] {"Select a center to vaccinate", "Seth Govindji Raoji Ayurved Medical College", "Civil Hospital", "Ashwini Hospital", "Lokmangal Hospital", "Railway Hospital", "Bhavanarishi Hospital", "Shri Markandeya Rugnalay", "Unique Hospital", "Panchasheel Maternity Hospital", "Yashodhara Hospital", "City Hospital", "Rathi Hospital", "Shri Siddheshwar Hospital"}));
+		vaccineCenters.setModel(new DefaultComboBoxModel<String>(new String[] { "Select a center to vaccinate",
+				"Seth Govindji Raoji Ayurved Medical College", "Civil Hospital", "Ashwini Hospital",
+				"Lokmangal Hospital", "Railway Hospital", "Bhavanarishi Hospital", "Shri Markandeya Rugnalay",
+				"Unique Hospital", "Panchasheel Maternity Hospital", "Yashodhara Hospital", "City Hospital",
+				"Rathi Hospital", "Shri Siddheshwar Hospital" }));
 		vaccineCenters.setFont(new Font("Euclid Circular A Light", Font.PLAIN, 15));
 		vaccineCenters.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 51, 102)));
-		vaccineCenters.setBounds(209, 244, 349, 29);
+		vaccineCenters.setBounds(209, 243, 349, 30);
 		mainSection.add(vaccineCenters);
 
-		
+		JLabel r1 = new JLabel("*");
+		r1.setVisible(false);
+		r1.setForeground(Color.RED);
+		r1.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
+		r1.setHorizontalTextPosition(SwingConstants.RIGHT);
+		r1.setHorizontalAlignment(SwingConstants.RIGHT);
+		r1.setBounds(10, 58, 28, 23);
+		mainSection.add(r1);
+
+		JLabel r2 = new JLabel("*");
+		r2.setVisible(false);
+		r2.setHorizontalTextPosition(SwingConstants.RIGHT);
+		r2.setHorizontalAlignment(SwingConstants.RIGHT);
+		r2.setForeground(Color.RED);
+		r2.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
+		r2.setBounds(10, 192, 28, 23);
+		mainSection.add(r2);
+
+		JLabel r3 = new JLabel("*");
+		r3.setVisible(false);
+		r3.setHorizontalTextPosition(SwingConstants.RIGHT);
+		r3.setHorizontalAlignment(SwingConstants.RIGHT);
+		r3.setForeground(Color.RED);
+		r3.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
+		r3.setBounds(10, 243, 28, 23);
+		mainSection.add(r3);
+
+		JLabel stockError = new JLabel(
+				"<html>\r\nERROR!<br>\r\nStock not available for selected vaccine<br>\r\nPlease select other vaccine or try after some time\r\n</html>");
+		stockError.setVisible(false);
+		stockError.setVerticalAlignment(SwingConstants.TOP);
+		stockError.setHorizontalTextPosition(SwingConstants.LEFT);
+		stockError.setHorizontalAlignment(SwingConstants.LEFT);
+		stockError.setForeground(Color.RED);
+		stockError.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		stockError.setBounds(208, 326, 350, 64);
+		mainSection.add(stockError);
+
+		JLabel aadhaarError = new JLabel("* Invalid Aadhar Number");
+		aadhaarError.setVisible(false);
+		aadhaarError.setHorizontalTextPosition(SwingConstants.LEFT);
+		aadhaarError.setHorizontalAlignment(SwingConstants.LEFT);
+		aadhaarError.setForeground(Color.RED);
+		aadhaarError.setFont(new Font("Euclid Circular A", Font.PLAIN, 13));
+		aadhaarError.setBounds(208, 90, 193, 29);
+		mainSection.add(aadhaarError);
+
+		JButton btnBookSlot = new JButton("BOOK SLOT");
+		btnBookSlot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean valAadhaar, valStock, valCenter;
+				valAadhaar = aadhaarNo.getText().equals("");
+				if (valAadhaar) {
+					aadhaarError.setVisible(false);
+					r1.setVisible(true);
+				} else {
+					r1.setVisible(false);
+					Pattern ptr = Pattern.compile("[0-9]{12}");
+					Matcher match = ptr.matcher(aadhaarNo.getText());
+					valAadhaar = !(match.find() && match.group().equals(aadhaarNo.getText()));
+					if (valAadhaar) {
+						aadhaarError.setVisible(true);
+					} else {
+						aadhaarError.setVisible(false);
+					}
+				}
+
+				valStock = group.isSelected(null);
+				if (valStock) {
+					r2.setVisible(true);
+				} else {
+					r2.setVisible(false);
+				}
+
+				valCenter = vaccineCenters.getSelectedItem().equals("Select a center to vaccinate");
+				if (valCenter) {
+					r3.setVisible(true);
+				} else {
+					r3.setVisible(false);
+				}
+
+				if (!(valAadhaar || valStock || valCenter)) {
+					SelectOperations so = new SelectOperations();
+					if (so.select_vaccine_stock(group.getSelection().getActionCommand()) == 0) {
+						stockError.setVisible(true);
+					} else {
+						stockError.setVisible(false);
+						String appointment_date = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
+								+ String.format("%02d", day.getValue());
+						
+						ArrayList<String> al = new ArrayList<String>();
+						al.add(username);
+						al.add(aadhaarNo.getText());
+						al.add(appointment_date);
+						al.add(group.getSelection().getActionCommand());
+						al.add((String)vaccineCenters.getSelectedItem());
+						
+						InsertOperations io = new InsertOperations();
+						int rows = io.insert_into_appointments(al);
+						if (rows == 0) {
+							JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
+									JOptionPane.ERROR_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				}
+
+			}
+		});
+		btnBookSlot.setForeground(Color.WHITE);
+		btnBookSlot.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
+		btnBookSlot.setBorderPainted(false);
+		btnBookSlot.setBackground(new Color(0, 128, 0));
+		btnBookSlot.setBounds(42, 326, 133, 42);
+		mainSection.add(btnBookSlot);
 
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setBorder(null);

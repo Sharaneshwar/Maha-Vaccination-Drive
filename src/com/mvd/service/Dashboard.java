@@ -163,6 +163,15 @@ public class Dashboard extends JFrame {
 		myProfilePanel.add(s1);
 
 		JPanel bookSlotPanel = new JPanel();
+		bookSlotPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BookYourSlotPage bysp = new BookYourSlotPage(username);
+				bysp.setLocationRelativeTo(null);
+				bysp.setVisible(true);
+				dispose();
+			}
+		});
 		bookSlotPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bookSlotPanel.setOpaque(false);
 		bookSlotPanel.setBackground(new Color(0, 51, 102, 30));
@@ -240,7 +249,7 @@ public class Dashboard extends JFrame {
 				LoginPage lp = new LoginPage();
 				lp.setLocationRelativeTo(null);
 				lp.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		logoutPanel.setOpaque(false);

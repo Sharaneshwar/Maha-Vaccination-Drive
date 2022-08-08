@@ -51,8 +51,8 @@ public class SelectOperations {
 	}
 
 	public boolean check_username_password(String username, String password) {
-		if(hm.containsKey(username)) {
-			if(hm.get(username).equals(password)) {
+		if (hm.containsKey(username)) {
+			if (hm.get(username).equals(password)) {
 				return true;
 			} else {
 				return false;
@@ -61,8 +61,8 @@ public class SelectOperations {
 			return false;
 		}
 	}
-	
-	public ArrayList<String> select_for_dashboard(String username){
+
+	public ArrayList<String> select_for_dashboard(String username) {
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -71,7 +71,8 @@ public class SelectOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT FULL_NAME, MOBILE_NO, DOB, GENDER FROM REGISTRATION_TABLE WHERE EMAIL_ID = '" + username + "'");
+			rs = st.executeQuery("SELECT FULL_NAME, MOBILE_NO, DOB, GENDER FROM REGISTRATION_TABLE WHERE EMAIL_ID = '"
+					+ username + "'");
 			while (rs.next()) {
 				al.add(rs.getString("FULL_NAME"));
 				al.add(rs.getString("MOBILE_NO"));
@@ -100,5 +101,45 @@ public class SelectOperations {
 			}
 		}
 		return al;
+	}
+
+	public int select_vaccine_stock(String vaccine) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		int stock = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT STOCK FROM VACCINE_STOCK WHERE NAME = '" + vaccine + "'");
+			while (rs.next()) {
+				stock = rs.getInt("Stock");
+			}
+
+		} catch (ClassNotFoundException e0) {
+			e0.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return stock;
 	}
 }
