@@ -176,11 +176,14 @@ public class LoginPage extends JFrame {
 		registerPanel.setFont(new Font("Product Sans", Font.PLAIN, 16));
 		registerPanel.setBackground(new Color(135, 206, 235));
 		registerPanel.setLayout(null);
-
-		JLabel loginImg = new JLabel("");
-		loginImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/Login_Image.png")));
-		loginImg.setBounds(3, 3, 322, 394);
-		registerPanel.add(loginImg);
+		
+		JSeparator middleSep_1 = new JSeparator();
+		middleSep_1.setOrientation(SwingConstants.VERTICAL);
+		middleSep_1.setForeground(new Color(0, 51, 102));
+		middleSep_1.setBorder(new LineBorder(new Color(0, 51, 102), 2));
+		middleSep_1.setBackground(new Color(0, 51, 102));
+		middleSep_1.setBounds(0, 3, 2, 400);
+		registerPanel.add(middleSep_1);
 
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
@@ -323,6 +326,11 @@ public class LoginPage extends JFrame {
 		register.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
 		register.setBounds(390, 294, 300, 29);
 		registerPanel.add(register);
+		
+				JLabel loginImg = new JLabel("");
+				loginImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/Login_Image.png")));
+				loginImg.setBounds(-25, 3, 350, 394);
+				registerPanel.add(loginImg);
 
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));

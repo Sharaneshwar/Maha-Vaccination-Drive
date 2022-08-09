@@ -177,10 +177,10 @@ public class HomePage extends JFrame {
 		quote.setBounds(462, 507, 377, 100);
 		contentPane.add(quote);
 		
-		JLabel pmImg = new JLabel("");
-		pmImg.setIcon(new ImageIcon(HomePage.class.getResource("/resources/pm.png")));
-		pmImg.setBounds(531, 242, 236, 236);
-		contentPane.add(pmImg);
+		JLabel vaccineSticker = new JLabel("");
+		vaccineSticker.setIcon(new ImageIcon(HomePage.class.getResource("/resources/vaccine_sticker.png")));
+		vaccineSticker.setBounds(531, 244, 236, 236);
+		contentPane.add(vaccineSticker);
 		
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setIcon(new ImageIcon(HomePage.class.getResource("/resources/bg.png")));

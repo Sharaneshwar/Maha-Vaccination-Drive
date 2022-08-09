@@ -142,4 +142,123 @@ public class SelectOperations {
 		}
 		return stock;
 	}
+	
+	public String check_vaccination_status(String username) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String date = "no-date";
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT APPOINTMENT_DATE FROM APPOINTMENTS WHERE EMAIL_ID = '" + username + "'");
+			while (rs.next()) {
+				date = rs.getString("APPOINTMENT_DATE");
+			}
+		} catch (ClassNotFoundException e0) {
+			e0.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return date;
+	}
+
+	public ArrayList<String> select_appointment_details(String username){
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<String> al = new ArrayList<String>();
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT ID, AADHAAR_NO, APPOINTMENT_DATE, VACCINE_NAME, VACCINE_CENTER FROM APPOINTMENTS WHERE EMAIL_ID = '"
+					+ username + "'");
+			while (rs.next()) {
+				al.add("MVD0000777" + String.valueOf(rs.getInt("ID")));
+				al.add(rs.getString("AADHAAR_NO"));
+				al.add(rs.getString("APPOINTMENT_DATE"));
+				al.add(rs.getString("VACCINE_NAME"));
+				al.add(rs.getString("VACCINE_CENTER") + ", Solapur");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return al;
+	}
+	
+	public ArrayList<String> select_vaccine_centers() {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<String> al = new ArrayList<String>();
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT CENTER_NAME FROM VACCINE_CENTERS");
+			al.add("Select a center to vaccinate");
+			while (rs.next()) {
+				al.add(rs.getString("CENTER_NAME"));
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return al;
+	}
 }

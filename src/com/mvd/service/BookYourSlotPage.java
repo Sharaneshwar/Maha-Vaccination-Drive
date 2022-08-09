@@ -7,7 +7,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +27,7 @@ import javax.swing.border.LineBorder;
 
 import com.mvd.dao.InsertOperations;
 import com.mvd.dao.SelectOperations;
+import com.mvd.dao.UpdateOperations;
 import com.toedter.calendar.JYearChooser;
 
 import javax.swing.JTextField;
@@ -153,6 +157,7 @@ public class BookYourSlotPage extends JFrame {
 		myProfilePanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				myProfilePanel.setOpaque(true);
 				Dashboard db = new Dashboard(username);
 				db.setLocationRelativeTo(null);
 				db.setVisible(true);
@@ -216,6 +221,16 @@ public class BookYourSlotPage extends JFrame {
 		bookSlotPanel.add(s2);
 
 		JPanel viewAppointmentPanel = new JPanel();
+		viewAppointmentPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				viewAppointmentPanel.setOpaque(true);
+				ViewAppointmentPage vap = new ViewAppointmentPage(username);
+				vap.setLocationRelativeTo(null);
+				vap.setVisible(true);
+				dispose();
+			}
+		});
 		viewAppointmentPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		viewAppointmentPanel.setOpaque(false);
 		viewAppointmentPanel.setBackground(new Color(0, 51, 102, 30));
@@ -258,6 +273,7 @@ public class BookYourSlotPage extends JFrame {
 		logoutPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				logoutPanel.setOpaque(true);
 				LoginPage lp = new LoginPage();
 				lp.setLocationRelativeTo(null);
 				lp.setVisible(true);
@@ -424,13 +440,13 @@ public class BookYourSlotPage extends JFrame {
 		lblVaccineCenter.setBounds(42, 243, 146, 29);
 		mainSection.add(lblVaccineCenter);
 
+
+		SelectOperations so = new SelectOperations();
+		ArrayList<String> al = so.select_vaccine_centers();
+		
 		JComboBox<String> vaccineCenters = new JComboBox<String>();
-		vaccineCenters.setMaximumRowCount(15);
-		vaccineCenters.setModel(new DefaultComboBoxModel<String>(new String[] { "Select a center to vaccinate",
-				"Seth Govindji Raoji Ayurved Medical College", "Civil Hospital", "Ashwini Hospital",
-				"Lokmangal Hospital", "Railway Hospital", "Bhavanarishi Hospital", "Shri Markandeya Rugnalay",
-				"Unique Hospital", "Panchasheel Maternity Hospital", "Yashodhara Hospital", "City Hospital",
-				"Rathi Hospital", "Shri Siddheshwar Hospital" }));
+		vaccineCenters.setMaximumRowCount(30);
+		vaccineCenters.setModel(new DefaultComboBoxModel<String>(al.toArray(new String[al.size()])));
 		vaccineCenters.setFont(new Font("Euclid Circular A Light", Font.PLAIN, 15));
 		vaccineCenters.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 51, 102)));
 		vaccineCenters.setBounds(209, 243, 349, 30);
@@ -463,16 +479,16 @@ public class BookYourSlotPage extends JFrame {
 		r3.setBounds(10, 243, 28, 23);
 		mainSection.add(r3);
 
-		JLabel stockError = new JLabel(
-				"<html>\r\nERROR!<br>\r\nStock not available for selected vaccine<br>\r\nPlease select other vaccine or try after some time\r\n</html>");
-		stockError.setVisible(false);
-		stockError.setVerticalAlignment(SwingConstants.TOP);
-		stockError.setHorizontalTextPosition(SwingConstants.LEFT);
-		stockError.setHorizontalAlignment(SwingConstants.LEFT);
-		stockError.setForeground(Color.RED);
-		stockError.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		stockError.setBounds(208, 326, 350, 64);
-		mainSection.add(stockError);
+		JLabel error = new JLabel(
+				"<html>ERROR!<br>Stock not available for selected vaccine<br>Please select other vaccine or try after some time</html>");
+		error.setVisible(false);
+		error.setVerticalAlignment(SwingConstants.TOP);
+		error.setHorizontalTextPosition(SwingConstants.LEFT);
+		error.setHorizontalAlignment(SwingConstants.LEFT);
+		error.setForeground(Color.RED);
+		error.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		error.setBounds(208, 326, 350, 64);
+		mainSection.add(error);
 
 		JLabel aadhaarError = new JLabel("* Invalid Aadhar Number");
 		aadhaarError.setVisible(false);
@@ -486,7 +502,7 @@ public class BookYourSlotPage extends JFrame {
 		JButton btnBookSlot = new JButton("BOOK SLOT");
 		btnBookSlot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean valAadhaar, valStock, valCenter;
+				boolean valAadhaar, valStock, valCenter, valDate = false;
 				valAadhaar = aadhaarNo.getText().equals("");
 				if (valAadhaar) {
 					aadhaarError.setVisible(false);
@@ -517,28 +533,46 @@ public class BookYourSlotPage extends JFrame {
 					r3.setVisible(false);
 				}
 
-				if (!(valAadhaar || valStock || valCenter)) {
+				String appointment_date = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
+						+ String.format("%02d", day.getValue());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Date app_date = sdf.parse(appointment_date);
+					Date current_date = new Date();
+					valDate = app_date.compareTo(current_date) < 0;
+					if (valDate) {
+						error.setText("<html>ERROR!<br>Appointment Date cannot be less than current date<br>Please select correct date</html>");
+						error.setVisible(true);
+					} else {
+						error.setVisible(false);
+					}
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+				
+				if (!(valAadhaar || valStock || valCenter || valDate)) {
 					SelectOperations so = new SelectOperations();
 					if (so.select_vaccine_stock(group.getSelection().getActionCommand()) == 0) {
-						stockError.setVisible(true);
+						error.setText("<html>ERROR!<br>Stock not available for selected vaccine<br>Please select other vaccine or try after some time</html>");
+						error.setVisible(true);
 					} else {
-						stockError.setVisible(false);
-						String appointment_date = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
-								+ String.format("%02d", day.getValue());
-						
+						error.setVisible(false);
+
 						ArrayList<String> al = new ArrayList<String>();
 						al.add(username);
 						al.add(aadhaarNo.getText());
 						al.add(appointment_date);
 						al.add(group.getSelection().getActionCommand());
-						al.add((String)vaccineCenters.getSelectedItem());
-						
+						al.add((String) vaccineCenters.getSelectedItem());
+
 						InsertOperations io = new InsertOperations();
 						int rows = io.insert_into_appointments(al);
 						if (rows == 0) {
 							JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
 									JOptionPane.ERROR_MESSAGE);
 						} else {
+							UpdateOperations uo = new UpdateOperations();
+							uo.update_vaccine_stock(group.getSelection().getActionCommand());
 							JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
@@ -554,12 +588,33 @@ public class BookYourSlotPage extends JFrame {
 		btnBookSlot.setBounds(42, 326, 133, 42);
 		mainSection.add(btnBookSlot);
 
+		JLabel slotBooked = new JLabel(
+				"<html><center>\r\nYou have already booked a slot.<br>\r\nCheck <b>View Apointments</b> tab for more details.\r\n</center></html>");
+		slotBooked.setVisible(false);
+		slotBooked.setHorizontalTextPosition(SwingConstants.CENTER);
+		slotBooked.setHorizontalAlignment(SwingConstants.CENTER);
+		slotBooked.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		slotBooked.setForeground(Color.BLACK);
+		slotBooked.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
+		slotBooked.setBounds(265, 155, 600, 111);
+		contentPane.add(slotBooked);
+
+		String date = so.check_vaccination_status(username);
+		if (date.equals("no-date")) {
+			mainSection.setVisible(true);
+			slotBooked.setVisible(false);
+		} else {
+			slotBooked.setVisible(true);
+			heading.setText("SLOT ALREADY BOOKED");
+			heading.setBounds(395, 140, 334, 31);
+			mainSection.setVisible(false);
+		}
+
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setBorder(null);
 		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
-
 	}
 }

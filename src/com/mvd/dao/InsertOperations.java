@@ -17,6 +17,7 @@ public class InsertOperations {
 	public int insert_into_registration_table(ArrayList<String> al) {
 		Connection con = null;
 		PreparedStatement ps = null;
+		int rows = 0;
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
@@ -29,7 +30,7 @@ public class InsertOperations {
 				ps.setString(5, al.get(4));
 				ps.setString(6, al.get(5));
 				ps.setString(7, al.get(6));
-				return ps.executeUpdate();
+				rows = ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -49,12 +50,13 @@ public class InsertOperations {
 				e.printStackTrace();
 			}
 		}
-		return 0;
+		return rows;
 	}
 
 	public int insert_into_appointments(ArrayList<String> al) {
 		Connection con = null;
 		PreparedStatement ps = null;
+		int rows = 0;
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
@@ -65,7 +67,7 @@ public class InsertOperations {
 				ps.setString(3, al.get(2));
 				ps.setString(4, al.get(3));
 				ps.setString(5, al.get(4));
-				return ps.executeUpdate();
+				rows = ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -85,6 +87,6 @@ public class InsertOperations {
 				e.printStackTrace();
 			}
 		}
-		return 0;
+		return rows;
 	}
 }

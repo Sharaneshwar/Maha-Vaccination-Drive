@@ -7,9 +7,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -17,13 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import com.mvd.dao.SelectOperations;
 
-public class Dashboard extends JFrame {
+public class ViewAppointmentPage extends JFrame {
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -34,7 +32,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard frame = new Dashboard("");
+					ViewAppointmentPage frame = new ViewAppointmentPage("");
 					frame.setLocationRelativeTo(null); // To set the frame at the center of screen
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -47,10 +45,7 @@ public class Dashboard extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Dashboard(String username) {
-		SelectOperations so = new SelectOperations();
-		ArrayList<String> al = so.select_for_dashboard(username);
-
+	public ViewAppointmentPage(String username) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -132,140 +127,6 @@ public class Dashboard extends JFrame {
 		headerImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/header.jpg")));
 		headerPanel.add(headerImg);
 
-		JPanel myProfileSection = new JPanel();
-		myProfileSection.setOpaque(false);
-		myProfileSection.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		myProfileSection.setBounds(245, 134, 640, 500);
-		contentPane.add(myProfileSection);
-		myProfileSection.setLayout(null);
-
-		JLabel m_profile_photo = new JLabel("");
-		m_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/m_profile_photo.png")));
-		m_profile_photo.setBounds(20, 20, 225, 225);
-		myProfileSection.add(m_profile_photo);
-
-		JLabel f_profile_photo = new JLabel("");
-		f_profile_photo.setVisible(false);
-		f_profile_photo.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/f_profile_photo.png")));
-		f_profile_photo.setBounds(20, 20, 225, 225);
-		myProfileSection.add(f_profile_photo);
-
-		if (al.get(3).equals("Female")) {
-			m_profile_photo.setVisible(false);
-			f_profile_photo.setVisible(true);
-		}
-
-		JSeparator separator = new JSeparator();
-		separator.setBackground(new Color(0, 51, 102));
-		separator.setForeground(new Color(0, 51, 102));
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(255, 40, 3, 185);
-		myProfileSection.add(separator);
-
-		JLabel name = new JLabel(al.get(0));
-		name.setForeground(Color.BLACK);
-		name.setHorizontalTextPosition(SwingConstants.CENTER);
-		name.setHorizontalAlignment(SwingConstants.LEFT);
-		name.setFont(new Font("Euclid Circular A", Font.BOLD, 24));
-		name.setBounds(278, 50, 322, 36);
-		myProfileSection.add(name);
-
-		JLabel icon_email = new JLabel("");
-		icon_email.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/ico_email.png")));
-		icon_email.setForeground(Color.DARK_GRAY);
-		icon_email.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		icon_email.setBounds(278, 104, 25, 25);
-		myProfileSection.add(icon_email);
-
-		JLabel email_ID = new JLabel(username);
-		email_ID.setForeground(Color.DARK_GRAY);
-		email_ID.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		email_ID.setBounds(313, 104, 242, 25);
-		myProfileSection.add(email_ID);
-
-		JLabel icon_mobile = new JLabel("");
-		icon_mobile.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/phone_no_ico.png")));
-		icon_mobile.setForeground(Color.DARK_GRAY);
-		icon_mobile.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		icon_mobile.setBounds(278, 140, 25, 25);
-		myProfileSection.add(icon_mobile);
-
-		JLabel mobile_no = new JLabel(al.get(1));
-		mobile_no.setForeground(Color.DARK_GRAY);
-		mobile_no.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		mobile_no.setBounds(313, 140, 242, 25);
-		myProfileSection.add(mobile_no);
-
-		JLabel icon_dob = new JLabel("");
-		icon_dob.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/birth-date-icon.png")));
-		icon_dob.setForeground(Color.DARK_GRAY);
-		icon_dob.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		icon_dob.setBounds(278, 176, 25, 25);
-		myProfileSection.add(icon_dob);
-
-		JLabel dob = new JLabel(al.get(2));
-		dob.setForeground(Color.DARK_GRAY);
-		dob.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		dob.setBounds(313, 176, 242, 25);
-		myProfileSection.add(dob);
-
-		JLabel lblVaccinationStatus = new JLabel("VACCINATION STATUS");
-		lblVaccinationStatus.setOpaque(true);
-		lblVaccinationStatus.setBackground(new Color(230, 248, 255));
-		lblVaccinationStatus.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblVaccinationStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVaccinationStatus.setForeground(new Color(0, 51, 102));
-		lblVaccinationStatus.setFont(new Font("Euclid Circular A", Font.BOLD, 22));
-		lblVaccinationStatus.setBounds(183, 252, 273, 50);
-		myProfileSection.add(lblVaccinationStatus);
-
-		JPanel status_panel = new JPanel();
-		status_panel.setOpaque(false);
-		status_panel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		status_panel.setBackground(new Color(230, 248, 255));
-		status_panel.setBounds(159, 276, 322, 157);
-		myProfileSection.add(status_panel);
-		status_panel.setLayout(null);
-
-		JLabel status_label = new JLabel("Successfully Vaccinated");
-		status_label.setHorizontalTextPosition(SwingConstants.CENTER);
-		status_label.setHorizontalAlignment(SwingConstants.CENTER);
-		status_label.setForeground(new Color(0, 128, 0));
-		status_label.setFont(new Font("Euclid Circular A", Font.PLAIN, 17));
-		status_label.setBounds(32, 31, 257, 34);
-		status_panel.add(status_label);
-
-		JLabel status_icon = new JLabel("");
-		status_icon.setBounds(136, 76, 50, 50);
-		status_panel.add(status_icon);
-		status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
-		status_icon.setHorizontalTextPosition(SwingConstants.CENTER);
-		status_icon.setHorizontalAlignment(SwingConstants.CENTER);
-
-		String str_date = so.check_vaccination_status(username);
-		if (str_date.equals("no-date")) {
-			status_label.setText("Not Yet Vaccinated");
-			status_label.setForeground(Color.RED);
-			status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/red_cross.png")));
-		} else {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				Date app_date = sdf.parse(str_date);
-				Date current_date = new Date();
-				if (app_date.compareTo(current_date) > 0) {
-					status_label.setText("Scheduled");
-					status_label.setForeground(new Color(255, 140, 0));
-					status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/scheduled.png")));
-				} else {
-					status_label.setText("Successfully Vaccinated");
-					status_label.setForeground(new Color(0, 128, 0));
-					status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
-				}
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-		}
-
 		JPanel hamburger_panel = new JPanel();
 		hamburger_panel.setOpaque(false);
 		hamburger_panel.setBackground(new Color(0, 51, 102));
@@ -275,6 +136,17 @@ public class Dashboard extends JFrame {
 		hamburger_panel.setLayout(null);
 
 		JPanel myProfilePanel = new JPanel();
+		myProfilePanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				myProfilePanel.setOpaque(true);
+				Dashboard db = new Dashboard(username);
+				db.setLocationRelativeTo(null);
+				db.setVisible(true);
+				dispose();
+			}
+		});
+		myProfilePanel.setOpaque(false);
 		myProfilePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		myProfilePanel.setBackground(new Color(0, 51, 102, 30));
 		myProfilePanel.setBounds(0, 0, 231, 60);
@@ -342,18 +214,7 @@ public class Dashboard extends JFrame {
 		bookSlotPanel.add(s2);
 
 		JPanel viewAppointmentPanel = new JPanel();
-		viewAppointmentPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				viewAppointmentPanel.setOpaque(true);
-				ViewAppointmentPage vap = new ViewAppointmentPage(username);
-				vap.setLocationRelativeTo(null);
-				vap.setVisible(true);
-				dispose();
-			}
-		});
 		viewAppointmentPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		viewAppointmentPanel.setOpaque(false);
 		viewAppointmentPanel.setBackground(new Color(0, 51, 102, 30));
 		viewAppointmentPanel.setLayout(null);
 		viewAppointmentPanel.setBounds(0, 120, 231, 60);
@@ -438,12 +299,125 @@ public class Dashboard extends JFrame {
 		guidelines.setBounds(0, 180, 230, 293);
 		hamburger_panel.add(guidelines);
 
+		JLabel lblAppointmentDetails = new JLabel("APPOINTMENT DETAILS");
+		lblAppointmentDetails.setIcon(new ImageIcon(ViewAppointmentPage.class.getResource("/resources/bg.png")));
+		lblAppointmentDetails.setOpaque(true);
+		lblAppointmentDetails.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblAppointmentDetails.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAppointmentDetails.setForeground(new Color(0, 51, 102));
+		lblAppointmentDetails.setFont(new Font("Euclid Circular A", Font.BOLD, 26));
+		lblAppointmentDetails.setBounds(399, 139, 323, 31);
+		contentPane.add(lblAppointmentDetails);
+
+		JPanel mainSection = new JPanel();
+		mainSection.setOpaque(false);
+		mainSection.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		mainSection.setBounds(265, 155, 600, 321);
+		contentPane.add(mainSection);
+		mainSection.setLayout(null);
+
+		JLabel lblAppointmentId = new JLabel("Appointment ID");
+		lblAppointmentId.setForeground(Color.BLACK);
+		lblAppointmentId.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		lblAppointmentId.setBounds(30, 47, 164, 29);
+		mainSection.add(lblAppointmentId);
+
+		JLabel lblAppointmentDate = new JLabel("Date");
+		lblAppointmentDate.setForeground(Color.BLACK);
+		lblAppointmentDate.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		lblAppointmentDate.setBounds(30, 124, 164, 29);
+		mainSection.add(lblAppointmentDate);
+
+		JLabel lblVaccineName = new JLabel("Vaccine Name");
+		lblVaccineName.setForeground(Color.BLACK);
+		lblVaccineName.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		lblVaccineName.setBounds(315, 124, 164, 29);
+		mainSection.add(lblVaccineName);
+
+		JLabel lblVaccineCenter = new JLabel("Vaccine Center");
+		lblVaccineCenter.setForeground(Color.BLACK);
+		lblVaccineCenter.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		lblVaccineCenter.setBounds(30, 203, 164, 29);
+		mainSection.add(lblVaccineCenter);
+
+		JLabel lblAadharNo = new JLabel("Aadhaar No.");
+		lblAadharNo.setForeground(Color.BLACK);
+		lblAadharNo.setFont(new Font("Euclid Circular A", Font.BOLD, 17));
+		lblAadharNo.setBounds(315, 47, 164, 29);
+		mainSection.add(lblAadharNo);
+
+		JLabel appointmentID = new JLabel("");
+		appointmentID.setAlignmentY(Component.TOP_ALIGNMENT);
+		appointmentID.setForeground(Color.BLACK);
+		appointmentID.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		appointmentID.setBounds(30, 74, 232, 29);
+		mainSection.add(appointmentID);
+
+		JLabel date = new JLabel("");
+		date.setForeground(Color.BLACK);
+		date.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		date.setAlignmentY(0.0f);
+		date.setBounds(30, 150, 232, 29);
+		mainSection.add(date);
+
+		JLabel vaccineCenter = new JLabel("");
+		vaccineCenter.setVerticalTextPosition(SwingConstants.TOP);
+		vaccineCenter.setVerticalAlignment(SwingConstants.TOP);
+		vaccineCenter.setForeground(Color.BLACK);
+		vaccineCenter.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		vaccineCenter.setAlignmentY(0.0f);
+		vaccineCenter.setBounds(30, 231, 537, 42);
+		mainSection.add(vaccineCenter);
+
+		JLabel aadhaarNo = new JLabel("");
+		aadhaarNo.setForeground(Color.BLACK);
+		aadhaarNo.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		aadhaarNo.setAlignmentY(0.0f);
+		aadhaarNo.setBounds(315, 74, 232, 29);
+		mainSection.add(aadhaarNo);
+
+		JLabel vaccineName = new JLabel("");
+		vaccineName.setForeground(Color.BLACK);
+		vaccineName.setFont(new Font("Euclid Circular A", Font.PLAIN, 15));
+		vaccineName.setAlignmentY(0.0f);
+		vaccineName.setBounds(315, 150, 232, 29);
+		mainSection.add(vaccineName);
+
+		JLabel lblACopyOf = new JLabel("A copy of this is sent to your registered email address.");
+		lblACopyOf.setForeground(new Color(0, 51, 102));
+		lblACopyOf.setFont(new Font("Euclid Circular A", Font.ITALIC, 15));
+		lblACopyOf.setAlignmentY(0.0f);
+		lblACopyOf.setBounds(30, 279, 537, 29);
+		mainSection.add(lblACopyOf);
+		
+		JLabel noAppointmentLabel = new JLabel("<html><center>\r\nNo appointments booked yet for vaccination<br>\r\nOpen <b>Book Your Slot</b> tab to schedule the appointment\r\n</center></html>");
+		noAppointmentLabel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		noAppointmentLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		noAppointmentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		noAppointmentLabel.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
+		noAppointmentLabel.setBounds(265, 155, 600, 103);
+		contentPane.add(noAppointmentLabel);
+
+		SelectOperations so = new SelectOperations();
+		String app_date = so.check_vaccination_status(username);
+		if (app_date.equals("no-date")) {
+			mainSection.setVisible(false);
+			noAppointmentLabel.setVisible(true);
+		} else {
+			ArrayList<String> al = so.select_appointment_details(username);
+			noAppointmentLabel.setVisible(false);
+			appointmentID.setText(al.get(0));
+			aadhaarNo.setText(al.get(1));
+			date.setText(al.get(2));
+			vaccineName.setText(al.get(3));
+			vaccineCenter.setText(al.get(4));
+		}
+
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setBorder(null);
 		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
-
 	}
 }
