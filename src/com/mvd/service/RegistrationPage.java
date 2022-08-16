@@ -596,6 +596,7 @@ public class RegistrationPage extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "Registration Done Successfully", "Success",
 								JOptionPane.INFORMATION_MESSAGE);
+						io.insert_into_vaccine_status(emailID.getText());
 						LoginPage lp = new LoginPage();
 						lp.setLocationRelativeTo(null);
 						lp.setVisible(true);

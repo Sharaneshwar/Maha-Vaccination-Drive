@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import com.mvd.dao.SelectOperations;
+import com.mvd.dao.CheckUsernamePassword;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -34,7 +34,7 @@ public class LoginPage extends JFrame {
 	private JPanel contentPane;
 	private JTextField username;
 	private JPasswordField password;
-	SelectOperations so = new SelectOperations();
+	CheckUsernamePassword cup = new CheckUsernamePassword();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,8 +54,8 @@ public class LoginPage extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginPage() {
-		so.select_username_password();
-		
+		cup.select_username_password();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -176,7 +176,7 @@ public class LoginPage extends JFrame {
 		registerPanel.setFont(new Font("Product Sans", Font.PLAIN, 16));
 		registerPanel.setBackground(new Color(135, 206, 235));
 		registerPanel.setLayout(null);
-		
+
 		JSeparator middleSep_1 = new JSeparator();
 		middleSep_1.setOrientation(SwingConstants.VERTICAL);
 		middleSep_1.setForeground(new Color(0, 51, 102));
@@ -280,16 +280,26 @@ public class LoginPage extends JFrame {
 				}
 
 				if (!(valUsername || valPassword)) {
-					if (so.check_username_password(username.getText(), String.valueOf(password.getPassword()))) {
-						loginError.setVisible(false);
+					if (username.getText().equals("admin_mvd")
+							&& String.valueOf(password.getPassword()).equals("12345678")) {
 						JOptionPane.showMessageDialog(null, "Login Successfull !", "Success",
 								JOptionPane.INFORMATION_MESSAGE);
-						Dashboard dboard = new Dashboard(username.getText());
-						dboard.setLocationRelativeTo(null);
-						dboard.setVisible(true);
+						AdminDashboard adboard = new AdminDashboard();
+						adboard.setLocationRelativeTo(null);
+						adboard.setVisible(true);
 						dispose();
 					} else {
-						loginError.setVisible(true);
+						if (cup.check_username_password(username.getText(), String.valueOf(password.getPassword()))) {
+							loginError.setVisible(false);
+							JOptionPane.showMessageDialog(null, "Login Successfull !", "Success",
+									JOptionPane.INFORMATION_MESSAGE);
+							Dashboard dboard = new Dashboard(username.getText());
+							dboard.setLocationRelativeTo(null);
+							dboard.setVisible(true);
+							dispose();
+						} else {
+							loginError.setVisible(true);
+						}
 					}
 				}
 			}
@@ -300,7 +310,7 @@ public class LoginPage extends JFrame {
 		btnLogin.setBackground(new Color(0, 128, 0));
 		btnLogin.setBounds(483, 234, 115, 42);
 		registerPanel.add(btnLogin);
-		
+
 		JLabel lblUseYourMobile = new JLabel("* Use registered email-ID as username *");
 		lblUseYourMobile.setForeground(Color.BLACK);
 		lblUseYourMobile.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -308,8 +318,9 @@ public class LoginPage extends JFrame {
 		lblUseYourMobile.setFont(new Font("Euclid Circular A", Font.ITALIC, 14));
 		lblUseYourMobile.setBounds(384, 29, 300, 29);
 		registerPanel.add(lblUseYourMobile);
-		
-		JLabel register = new JLabel("<html>\r\nDon't have an account?  <u style=\"color: blue\"> Register</u>\r\n</html>");
+
+		JLabel register = new JLabel(
+				"<html>\r\nDon't have an account?  <u style=\"color: blue\"> Register</u>\r\n</html>");
 		register.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -326,11 +337,11 @@ public class LoginPage extends JFrame {
 		register.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
 		register.setBounds(390, 294, 300, 29);
 		registerPanel.add(register);
-		
-				JLabel loginImg = new JLabel("");
-				loginImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/Login_Image.png")));
-				loginImg.setBounds(-25, 3, 350, 394);
-				registerPanel.add(loginImg);
+
+		JLabel loginImg = new JLabel("");
+		loginImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/Login_Image.png")));
+		loginImg.setBounds(-25, 3, 350, 394);
+		registerPanel.add(loginImg);
 
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setIcon(new ImageIcon(LoginPage.class.getResource("/resources/bg.png")));

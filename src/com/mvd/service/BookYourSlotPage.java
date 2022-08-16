@@ -64,6 +64,10 @@ public class BookYourSlotPage extends JFrame {
 	 * Create the frame.
 	 */
 	public BookYourSlotPage(String username) {
+		SelectOperations so = new SelectOperations();
+		ArrayList<String> al = so.select_vaccine_centers();
+		String status = so.select_vaccine_status(username);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -440,10 +444,6 @@ public class BookYourSlotPage extends JFrame {
 		lblVaccineCenter.setBounds(42, 243, 146, 29);
 		mainSection.add(lblVaccineCenter);
 
-
-		SelectOperations so = new SelectOperations();
-		ArrayList<String> al = so.select_vaccine_centers();
-		
 		JComboBox<String> vaccineCenters = new JComboBox<String>();
 		vaccineCenters.setMaximumRowCount(30);
 		vaccineCenters.setModel(new DefaultComboBoxModel<String>(al.toArray(new String[al.size()])));
@@ -487,7 +487,7 @@ public class BookYourSlotPage extends JFrame {
 		error.setHorizontalAlignment(SwingConstants.LEFT);
 		error.setForeground(Color.RED);
 		error.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
-		error.setBounds(208, 326, 350, 64);
+		error.setBounds(42, 379, 350, 64);
 		mainSection.add(error);
 
 		JLabel aadhaarError = new JLabel("* Invalid Aadhar Number");
@@ -541,7 +541,8 @@ public class BookYourSlotPage extends JFrame {
 					Date current_date = new Date();
 					valDate = app_date.compareTo(current_date) < 0;
 					if (valDate) {
-						error.setText("<html>ERROR!<br>Appointment Date cannot be less than current date<br>Please select correct date</html>");
+						error.setText(
+								"<html>ERROR!<br>Appointment Date cannot be less than current date<br>Please select correct date</html>");
 						error.setVisible(true);
 					} else {
 						error.setVisible(false);
@@ -549,11 +550,11 @@ public class BookYourSlotPage extends JFrame {
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				if (!(valAadhaar || valStock || valCenter || valDate)) {
-					SelectOperations so = new SelectOperations();
 					if (so.select_vaccine_stock(group.getSelection().getActionCommand()) == 0) {
-						error.setText("<html>ERROR!<br>Stock not available for selected vaccine<br>Please select other vaccine or try after some time</html>");
+						error.setText(
+								"<html>ERROR!<br>Stock not available for selected vaccine<br>Please select other vaccine or try after some time</html>");
 						error.setVisible(true);
 					} else {
 						error.setVisible(false);
@@ -565,16 +566,38 @@ public class BookYourSlotPage extends JFrame {
 						al.add(group.getSelection().getActionCommand());
 						al.add((String) vaccineCenters.getSelectedItem());
 
-						InsertOperations io = new InsertOperations();
-						int rows = io.insert_into_appointments(al);
-						if (rows == 0) {
-							JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
-									JOptionPane.ERROR_MESSAGE);
+						if (status.equals("Not Yet Vaccinated")) {
+							InsertOperations io = new InsertOperations();
+							int rows = io.insert_into_appointments(al);
+							if (rows == 0) {
+								JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								UpdateOperations uo = new UpdateOperations();
+								uo.update_vaccine_stock(group.getSelection().getActionCommand());
+								JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
+										JOptionPane.INFORMATION_MESSAGE);
+								myProfilePanel.setOpaque(true);
+								Dashboard db = new Dashboard(username);
+								db.setLocationRelativeTo(null);
+								db.setVisible(true);
+								dispose();
+							}
 						} else {
 							UpdateOperations uo = new UpdateOperations();
-							uo.update_vaccine_stock(group.getSelection().getActionCommand());
-							JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
-									JOptionPane.INFORMATION_MESSAGE);
+							int rows = uo.update_appointment(al);
+							if (rows == 0) {
+								JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
+										JOptionPane.INFORMATION_MESSAGE);
+								myProfilePanel.setOpaque(true);
+								Dashboard db = new Dashboard(username);
+								db.setLocationRelativeTo(null);
+								db.setVisible(true);
+								dispose();
+							}
 						}
 					}
 				}
@@ -588,26 +611,67 @@ public class BookYourSlotPage extends JFrame {
 		btnBookSlot.setBounds(42, 326, 133, 42);
 		mainSection.add(btnBookSlot);
 
+		JButton btnCancel = new JButton("CANCEL");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myProfilePanel.setOpaque(true);
+				Dashboard db = new Dashboard(username);
+				db.setLocationRelativeTo(null);
+				db.setVisible(true);
+				dispose();
+			}
+		});
+		btnCancel.setForeground(Color.WHITE);
+		btnCancel.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
+		btnCancel.setBorderPainted(false);
+		btnCancel.setBackground(Color.RED);
+		btnCancel.setBounds(197, 326, 116, 42);
+		mainSection.add(btnCancel);
+
 		JLabel slotBooked = new JLabel(
-				"<html><center>\r\nYou have already booked a slot.<br>\r\nCheck <b>View Apointments</b> tab for more details.\r\n</center></html>");
+				"<html><center>You have already booked a slot.<br>Check <b>View Apointments</b> tab for more details.</center></html>");
 		slotBooked.setVisible(false);
 		slotBooked.setHorizontalTextPosition(SwingConstants.CENTER);
 		slotBooked.setHorizontalAlignment(SwingConstants.CENTER);
 		slotBooked.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
 		slotBooked.setForeground(Color.BLACK);
 		slotBooked.setFont(new Font("Euclid Circular A", Font.PLAIN, 20));
-		slotBooked.setBounds(265, 155, 600, 111);
+		slotBooked.setBounds(265, 155, 600, 110);
 		contentPane.add(slotBooked);
 
-		String date = so.check_vaccination_status(username);
-		if (date.equals("no-date")) {
+		JButton btnReschedule = new JButton("RESCHEDULE");
+		btnReschedule.setFocusable(false);
+		btnReschedule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainSection.setVisible(true);
+				slotBooked.setVisible(false);
+				btnReschedule.setVisible(false);
+				heading.setText("NEW APPOINTMENT");
+				heading.setBounds(427, 140, 277, 31);
+			}
+		});
+		btnReschedule.setVisible(false);
+		btnReschedule.setForeground(Color.WHITE);
+		btnReschedule.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
+		btnReschedule.setBorderPainted(false);
+		btnReschedule.setBackground(new Color(0, 128, 0));
+		btnReschedule.setBounds(265, 285, 144, 42);
+		contentPane.add(btnReschedule);
+
+		if (status.equals("Not Yet Vaccinated")) {
 			mainSection.setVisible(true);
 			slotBooked.setVisible(false);
+			btnReschedule.setVisible(false);
 		} else {
 			slotBooked.setVisible(true);
 			heading.setText("SLOT ALREADY BOOKED");
 			heading.setBounds(395, 140, 334, 31);
 			mainSection.setVisible(false);
+			if (status.equals("Scheduled")) {
+				btnReschedule.setVisible(true);
+			} else {
+				btnReschedule.setVisible(false);
+			}
 		}
 
 		JLabel backgroundImg = new JLabel("");

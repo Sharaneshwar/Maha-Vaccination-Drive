@@ -7,9 +7,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -227,10 +224,10 @@ public class Dashboard extends JFrame {
 		myProfileSection.add(status_panel);
 		status_panel.setLayout(null);
 
-		JLabel status_label = new JLabel("Successfully Vaccinated");
+		JLabel status_label = new JLabel("Not Yet Vaccinated");
 		status_label.setHorizontalTextPosition(SwingConstants.CENTER);
 		status_label.setHorizontalAlignment(SwingConstants.CENTER);
-		status_label.setForeground(new Color(0, 128, 0));
+		status_label.setForeground(Color.RED);
 		status_label.setFont(new Font("Euclid Circular A", Font.PLAIN, 17));
 		status_label.setBounds(32, 31, 257, 34);
 		status_panel.add(status_label);
@@ -238,32 +235,21 @@ public class Dashboard extends JFrame {
 		JLabel status_icon = new JLabel("");
 		status_icon.setBounds(136, 76, 50, 50);
 		status_panel.add(status_icon);
-		status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
+		status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/red_cross.png")));
 		status_icon.setHorizontalTextPosition(SwingConstants.CENTER);
 		status_icon.setHorizontalAlignment(SwingConstants.CENTER);
 
-		String str_date = so.check_vaccination_status(username);
-		if (str_date.equals("no-date")) {
-			status_label.setText("Not Yet Vaccinated");
+		String status = so.check_vaccination_status(username);
+		status_label.setText(status);
+		if (status.equals("Vaccinated")) {
+			status_label.setForeground(new Color(0, 128, 0));
+			status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
+		} else if (status.equals("Scheduled")) {
+			status_label.setForeground(new Color(255, 140, 0));
+			status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/scheduled.png")));
+		} else {
 			status_label.setForeground(Color.RED);
 			status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/red_cross.png")));
-		} else {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				Date app_date = sdf.parse(str_date);
-				Date current_date = new Date();
-				if (app_date.compareTo(current_date) > 0) {
-					status_label.setText("Scheduled");
-					status_label.setForeground(new Color(255, 140, 0));
-					status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/scheduled.png")));
-				} else {
-					status_label.setText("Successfully Vaccinated");
-					status_label.setForeground(new Color(0, 128, 0));
-					status_icon.setIcon(new ImageIcon(Dashboard.class.getResource("/resources/green_tick.png")));
-				}
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
 		}
 
 		JPanel hamburger_panel = new JPanel();

@@ -399,8 +399,8 @@ public class ViewAppointmentPage extends JFrame {
 		contentPane.add(noAppointmentLabel);
 
 		SelectOperations so = new SelectOperations();
-		String app_date = so.check_vaccination_status(username);
-		if (app_date.equals("no-date")) {
+		String status = so.check_vaccination_status(username);
+		if (status.equals("Not Yet Vaccinated")) {
 			mainSection.setVisible(false);
 			noAppointmentLabel.setVisible(true);
 		} else {

@@ -2,8 +2,13 @@ package com.mvd.dao;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
+
+import org.jfree.data.general.DefaultPieDataset;
+
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,59 +18,11 @@ public class SelectOperations {
 	private static String url = "jdbc:mysql://localhost:3306/mvd_db";
 	private static String user = "root";
 	private static String pass = "";
-	HashMap<String, String> hm = new HashMap<String, String>();
-
-	public void select_username_password() {
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
-		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, user, pass);
-			st = con.createStatement();
-			rs = st.executeQuery("SELECT EMAIL_ID, PASSWORD FROM REGISTRATION_TABLE");
-			while (rs.next()) {
-				hm.put(rs.getString(1), rs.getString(2));
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				st.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public boolean check_username_password(String username, String password) {
-		if (hm.containsKey(username)) {
-			if (hm.get(username).equals(password)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
+	Connection con = null;
+	Statement st = null;
+	ResultSet rs = null;
 
 	public ArrayList<String> select_for_dashboard(String username) {
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
 		ArrayList<String> al = new ArrayList<String>();
 		try {
 			Class.forName(driver);
@@ -104,9 +61,6 @@ public class SelectOperations {
 	}
 
 	public int select_vaccine_stock(String vaccine) {
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
 		int stock = 0;
 		try {
 			Class.forName(driver);
@@ -142,11 +96,8 @@ public class SelectOperations {
 		}
 		return stock;
 	}
-	
+
 	public String check_vaccination_status(String username) {
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
 		String date = "no-date";
 		try {
 			Class.forName(driver);
@@ -179,20 +130,37 @@ public class SelectOperations {
 				e.printStackTrace();
 			}
 		}
-		return date;
+		if (date.equals("no-date")) {
+			return "Not Yet Vaccinated";
+		} else {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				UpdateOperations uo = new UpdateOperations();
+				Date app_date = sdf.parse(date);
+				Date current_date = new Date();
+				if (app_date.compareTo(current_date) > 0) {
+					uo.update_vaccine_status(username, "Scheduled");
+					return "Scheduled";
+				} else {
+					uo.update_vaccine_status(username, "Vaccinated");
+					return "Vaccinated";
+				}
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return "Not Yet Vaccinated";
 	}
 
-	public ArrayList<String> select_appointment_details(String username){
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
+	public ArrayList<String> select_appointment_details(String username) {
 		ArrayList<String> al = new ArrayList<String>();
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT ID, AADHAAR_NO, APPOINTMENT_DATE, VACCINE_NAME, VACCINE_CENTER FROM APPOINTMENTS WHERE EMAIL_ID = '"
-					+ username + "'");
+			rs = st.executeQuery(
+					"SELECT ID, AADHAAR_NO, APPOINTMENT_DATE, VACCINE_NAME, VACCINE_CENTER FROM APPOINTMENTS WHERE EMAIL_ID = '"
+							+ username + "'");
 			while (rs.next()) {
 				al.add("MVD0000777" + String.valueOf(rs.getInt("ID")));
 				al.add(rs.getString("AADHAAR_NO"));
@@ -223,11 +191,8 @@ public class SelectOperations {
 		}
 		return al;
 	}
-	
+
 	public ArrayList<String> select_vaccine_centers() {
-		Connection con = null;
-		Statement st = null;
-		ResultSet rs = null;
 		ArrayList<String> al = new ArrayList<String>();
 		try {
 			Class.forName(driver);
@@ -260,5 +225,91 @@ public class SelectOperations {
 			}
 		}
 		return al;
+	}
+
+	public String select_vaccine_status(String username) {
+		String status = "Not Yet Vaccinated";
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT STATUS FROM VACCINE_STATUS WHERE EMAIL_ID = '" + username + "'");
+			while (rs.next()) {
+				status = rs.getString("STATUS");
+			}
+		} catch (ClassNotFoundException e0) {
+			e0.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return status;
+	}
+	
+	public DefaultPieDataset select_pie_dataset() {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		int rows = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Not Yet Vaccinated'");
+			while(rs.next()) {
+				rows = rs.getInt(1);				
+			}
+			dataset.setValue("Not Yet Vaccinated", rows);
+			rows = 0;
+			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Scheduled'");
+			while(rs.next()) {
+				rows = rs.getInt(1);				
+			}
+			dataset.setValue("Scheduled", rows);
+			rows = 0;
+			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Vaccinated'");
+			while(rs.next()) {
+				rows = rs.getInt(1);				
+			}
+			dataset.setValue("Vaccinated", rows);
+		} catch (ClassNotFoundException e0) {
+			e0.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataset;
 	}
 }

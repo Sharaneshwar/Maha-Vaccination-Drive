@@ -8,5 +8,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="src/external_jars/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="src/external_jars/mysql-connector-java-5.1.6.jar"/>
+	<classpathentry kind="lib" path="src/external_jars/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="src/external_jars/jfreechart-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
