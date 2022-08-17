@@ -28,6 +28,7 @@ import javax.swing.border.LineBorder;
 import com.mvd.dao.InsertOperations;
 import com.mvd.dao.SelectOperations;
 import com.mvd.dao.UpdateOperations;
+import com.mvd.utility.EmailNotification;
 import com.toedter.calendar.JYearChooser;
 
 import javax.swing.JTextField;
@@ -575,7 +576,9 @@ public class BookYourSlotPage extends JFrame {
 							} else {
 								UpdateOperations uo = new UpdateOperations();
 								uo.update_vaccine_stock(group.getSelection().getActionCommand());
-								JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
+								EmailNotification en = new EmailNotification();
+								en.send_notification(username);
+								JOptionPane.showMessageDialog(null, "Slot Booked Successfully\nCheck your mail for confirmation", "Success",
 										JOptionPane.INFORMATION_MESSAGE);
 								myProfilePanel.setOpaque(true);
 								Dashboard db = new Dashboard(username);
@@ -590,7 +593,9 @@ public class BookYourSlotPage extends JFrame {
 								JOptionPane.showMessageDialog(null, "Appointment Failed! Try Again", "Failed",
 										JOptionPane.ERROR_MESSAGE);
 							} else {
-								JOptionPane.showMessageDialog(null, "Slot Booked Successfully", "Success",
+								EmailNotification en = new EmailNotification();
+								en.send_notification(username);
+								JOptionPane.showMessageDialog(null, "Slot Booked Successfully\nCheck your mail for confirmation", "Success",
 										JOptionPane.INFORMATION_MESSAGE);
 								myProfilePanel.setOpaque(true);
 								Dashboard db = new Dashboard(username);
@@ -644,6 +649,17 @@ public class BookYourSlotPage extends JFrame {
 		btnReschedule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainSection.setVisible(true);
+				ArrayList<String> al = so.select_appointment_details(username);
+				aadhaarNo.setText(al.get(1));
+				day.setValue(Integer.parseInt(al.get(2).substring(8)));
+				month.setValue(Integer.parseInt(al.get(2).substring(5, 7)));
+				year.setValue(Integer.parseInt(al.get(2).substring(0, 4)));
+				if (al.get(3).equals("Covaxin")) {
+					Covaxin.setSelected(true);
+				} else {
+					Covishield.setSelected(true);
+				}
+				vaccineCenters.setSelectedItem(al.get(4));
 				slotBooked.setVisible(false);
 				btnReschedule.setVisible(false);
 				heading.setText("NEW APPOINTMENT");

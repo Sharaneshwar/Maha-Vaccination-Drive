@@ -7,7 +7,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -312,7 +315,7 @@ public class ViewAppointmentPage extends JFrame {
 		JPanel mainSection = new JPanel();
 		mainSection.setOpaque(false);
 		mainSection.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		mainSection.setBounds(265, 155, 600, 321);
+		mainSection.setBounds(265, 155, 600, 340);
 		contentPane.add(mainSection);
 		mainSection.setLayout(null);
 
@@ -383,14 +386,16 @@ public class ViewAppointmentPage extends JFrame {
 		vaccineName.setBounds(315, 150, 232, 29);
 		mainSection.add(vaccineName);
 
-		JLabel lblACopyOf = new JLabel("A copy of this is sent to your registered email address.");
+		JLabel lblACopyOf = new JLabel(
+				"<html>\r\nA copy of this is sent to your registered email address.<br>\r\nIf not present in Inbox, please check spam folder.\r\n<html>");
 		lblACopyOf.setForeground(new Color(0, 51, 102));
 		lblACopyOf.setFont(new Font("Euclid Circular A", Font.ITALIC, 15));
 		lblACopyOf.setAlignmentY(0.0f);
-		lblACopyOf.setBounds(30, 279, 537, 29);
+		lblACopyOf.setBounds(30, 279, 537, 50);
 		mainSection.add(lblACopyOf);
-		
-		JLabel noAppointmentLabel = new JLabel("<html><center>\r\nNo appointments booked yet for vaccination<br>\r\nOpen <b>Book Your Slot</b> tab to schedule the appointment\r\n</center></html>");
+
+		JLabel noAppointmentLabel = new JLabel(
+				"<html><center>\r\nNo appointments booked yet for vaccination<br>\r\nOpen <b>Book Your Slot</b> tab to schedule the appointment\r\n</center></html>");
 		noAppointmentLabel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
 		noAppointmentLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		noAppointmentLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -408,9 +413,17 @@ public class ViewAppointmentPage extends JFrame {
 			noAppointmentLabel.setVisible(false);
 			appointmentID.setText(al.get(0));
 			aadhaarNo.setText(al.get(1));
-			date.setText(al.get(2));
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat format2 = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+			Date app_date = null;
+			try {
+				app_date = format1.parse(al.get(2));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			date.setText(format2.format(app_date));
 			vaccineName.setText(al.get(3));
-			vaccineCenter.setText(al.get(4));
+			vaccineCenter.setText(al.get(4) + ", Solapur");
 		}
 
 		JLabel backgroundImg = new JLabel("");

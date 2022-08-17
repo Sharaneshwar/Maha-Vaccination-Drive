@@ -59,6 +59,40 @@ public class SelectOperations {
 		}
 		return al;
 	}
+	
+	public String select_user_name(String username) {
+		String name = "user";
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT FULL_NAME FROM REGISTRATION_TABLE WHERE EMAIL_ID = '" + username + "'");
+			while (rs.next()) {
+				name = rs.getString("FULL_NAME");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return name;
+	}
 
 	public int select_vaccine_stock(String vaccine) {
 		int stock = 0;
@@ -166,7 +200,7 @@ public class SelectOperations {
 				al.add(rs.getString("AADHAAR_NO"));
 				al.add(rs.getString("APPOINTMENT_DATE"));
 				al.add(rs.getString("VACCINE_NAME"));
-				al.add(rs.getString("VACCINE_CENTER") + ", Solapur");
+				al.add(rs.getString("VACCINE_CENTER"));
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
