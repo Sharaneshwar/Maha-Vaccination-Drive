@@ -2,6 +2,8 @@ package com.mvd.service;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,32 +11,35 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.ui.RectangleInsets;
-
+import com.mvd.dao.DeleteOperations;
 import com.mvd.dao.SelectOperations;
+import com.mvd.dao.UpdateOperations;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
-import java.awt.Cursor;
-import java.awt.BorderLayout;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class AdminDashboard extends JFrame {
+public class ManageAppointments extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -43,7 +48,7 @@ public class AdminDashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminDashboard frame = new AdminDashboard();
+					ManageAppointments frame = new ManageAppointments();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -56,7 +61,7 @@ public class AdminDashboard extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdminDashboard() {
+	public ManageAppointments() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
@@ -69,6 +74,7 @@ public class AdminDashboard extends JFrame {
 		setUndecorated(true);
 
 		JPanel headerPanel = new JPanel();
+		headerPanel.setLayout(null);
 		headerPanel.setBackground(new Color(238, 232, 170));
 		headerPanel.setAlignmentY(0.0f);
 		headerPanel.setAlignmentX(0.0f);
@@ -76,9 +82,7 @@ public class AdminDashboard extends JFrame {
 		contentPane.add(headerPanel);
 
 		JLabel closeLabel = new JLabel();
-		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		closeLabel.setBounds(872, 3, 25, 25);
-		closeLabel.setIcon(new ImageIcon(AdminDashboard.class.getResource("/resources/exitButton.png")));
+		closeLabel.setIcon(new ImageIcon(ManageAppointments.class.getResource("/resources/exitButton.png")));
 		closeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -90,48 +94,47 @@ public class AdminDashboard extends JFrame {
 				}
 			}
 		});
-		headerPanel.setLayout(null);
-		headerPanel.setLayout(null);
 		closeLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		closeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		closeLabel.setBounds(872, 3, 25, 25);
 		headerPanel.add(closeLabel);
 
 		JLabel leftHeading = new JLabel(
 				"<HTML>\r\nMINISTRY OF <BR>\r\n<b>HEALTH </b> AND <BR>\r\n<b>FAMILY WELFARE</b><br>\r\nGOVERNMENT OF INDIA\r\n</HTML>");
-		leftHeading.setBounds(35, 11, 179, 96);
 		leftHeading.setHorizontalTextPosition(SwingConstants.CENTER);
 		leftHeading.setHorizontalAlignment(SwingConstants.LEFT);
 		leftHeading.setForeground(Color.WHITE);
 		leftHeading.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
 		leftHeading.setAlignmentY(0.0f);
+		leftHeading.setBounds(35, 11, 179, 96);
 		headerPanel.add(leftHeading);
 
 		JLabel h1 = new JLabel("कोरोना से लड़ना है तो वैक्सीन है जरुरी");
-		h1.setBounds(262, 11, 376, 55);
 		h1.setHorizontalTextPosition(SwingConstants.CENTER);
 		h1.setHorizontalAlignment(SwingConstants.CENTER);
 		h1.setForeground(Color.WHITE);
 		h1.setFont(new Font("Poppins", Font.BOLD, 22));
 		h1.setAlignmentY(0.0f);
+		h1.setBounds(262, 11, 376, 55);
 		headerPanel.add(h1);
 
 		JLabel h2 = new JLabel("MAHA VACCINATION DRIVE");
-		h2.setBounds(262, 57, 376, 50);
 		h2.setHorizontalTextPosition(SwingConstants.CENTER);
 		h2.setHorizontalAlignment(SwingConstants.CENTER);
 		h2.setForeground(Color.WHITE);
 		h2.setFont(new Font("Teko", Font.BOLD, 34));
 		h2.setAlignmentY(0.0f);
+		h2.setBounds(262, 57, 376, 50);
 		headerPanel.add(h2);
 
 		JLabel rightHeading = new JLabel(
 				"<HTML><p style=\"text-align:right\">\r\nJOIN <b>INDIA'S<BR>\r\nGLORIOUS </b>JOURNEY<BR>\r\nOF <b>200 CRORE</b><br>\r\nVACCINATIONS\r\n</p></HTML>");
-		rightHeading.setBounds(685, 11, 179, 96);
 		rightHeading.setHorizontalTextPosition(SwingConstants.CENTER);
 		rightHeading.setHorizontalAlignment(SwingConstants.RIGHT);
 		rightHeading.setForeground(Color.WHITE);
 		rightHeading.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
 		rightHeading.setAlignmentY(0.0f);
+		rightHeading.setBounds(685, 11, 179, 96);
 		headerPanel.add(rightHeading);
 
 		JLabel headerImg = new JLabel("");
@@ -148,6 +151,17 @@ public class AdminDashboard extends JFrame {
 		contentPane.add(hamburger_panel);
 
 		JPanel vaccineStatsPanel = new JPanel();
+		vaccineStatsPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				vaccineStatsPanel.setOpaque(true);
+				AdminDashboard ad = new AdminDashboard();
+				ad.setLocationRelativeTo(null);
+				ad.setVisible(true);
+				dispose();
+			}
+		});
+		vaccineStatsPanel.setOpaque(false);
 		vaccineStatsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		vaccineStatsPanel.setLayout(null);
 		vaccineStatsPanel.setBackground(new Color(0, 51, 102, 30));
@@ -173,19 +187,8 @@ public class AdminDashboard extends JFrame {
 		vaccineStatsPanel.add(s1);
 
 		JPanel manageAppPanel = new JPanel();
-		manageAppPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				manageAppPanel.setOpaque(true);
-				ManageAppointments ma = new ManageAppointments();
-				ma.setLocationRelativeTo(null);
-				ma.setVisible(true);
-				dispose();
-			}
-		});
 		manageAppPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		manageAppPanel.setLayout(null);
-		manageAppPanel.setOpaque(false);
 		manageAppPanel.setBackground(new Color(0, 51, 102, 30));
 		manageAppPanel.setBounds(0, 60, 196, 85);
 		hamburger_panel.add(manageAppPanel);
@@ -304,45 +307,120 @@ public class AdminDashboard extends JFrame {
 		s4.setBounds(20, 15, 3, 30);
 		logoutPanel.add(s4);
 
-		SelectOperations so = new SelectOperations();
-		JFreeChart chart = ChartFactory.createPieChart("", so.select_pie_dataset(), true, false, false);
-		chart.setBackgroundImageAlpha(0.0f);
-		chart.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF, 0));
-		chart.getLegend().setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF, 0));
-		chart.getLegend().setBorder(0, 0, 0, 0);
-		chart.getLegend().setItemFont(new Font("Euclid Circular A", Font.PLAIN, 17));
-		chart.getLegend().setItemLabelPadding(new RectangleInsets(2, 2, 20, 20));
-		chart.getLegend().setLegendItemGraphicPadding(new RectangleInsets(0, 0, 18, 5));
-		
-		PiePlot piePlot = (PiePlot) chart.getPlot();
-		piePlot.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF, 0));
-		piePlot.setLabelGenerator(null);
-		piePlot.setOutlinePaint(null);
-		
-		JLabel chartTitle = new JLabel("VACCINATION STATISTICS");
-		chartTitle.setIcon(new ImageIcon(AdminDashboard.class.getResource("/resources/bg.png")));
-		chartTitle.setForeground(new Color(0, 51, 102));
-		chartTitle.setHorizontalTextPosition(SwingConstants.CENTER);
-		chartTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		chartTitle.setFont(new Font("Euclid Circular A", Font.BOLD, 26));
-		chartTitle.setBounds(360, 156, 369, 44);
-		contentPane.add(chartTitle);
-		
-		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setBorder(null);
-		chartPanel.setOpaque(false);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
 
-		JPanel cPanel = new JPanel();
-		cPanel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		cPanel.setOpaque(false);
-		cPanel.setBounds(256, 178, 577, 416);
-		contentPane.add(cPanel);
-		cPanel.setLayout(new BorderLayout(0, 0));
-		cPanel.add(chartPanel, BorderLayout.CENTER);
-		cPanel.validate();
+		SelectOperations so = new SelectOperations();
+		table = new JTable(so.create_appointments_table()) {
+			private static final long serialVersionUID = 1L;
+
+			@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] { Boolean.class, String.class, String.class, String.class, String.class,
+					String.class, String.class };
+
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int column) {
+				return columnTypes[column];
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column != 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		};
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(1).setPreferredWidth(40);
+		table.getColumnModel().getColumn(2).setMinWidth(300);
+		table.getColumnModel().getColumn(3).setPreferredWidth(140);
+		table.getColumnModel().getColumn(4).setPreferredWidth(170);
+		table.getColumnModel().getColumn(5).setPreferredWidth(140);
+		table.getColumnModel().getColumn(6).setMinWidth(400);
+
+		for (int i = 1; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
+		table.getColumnModel().getColumn(2).setCellRenderer(leftRenderer);
+		table.getColumnModel().getColumn(6).setCellRenderer(leftRenderer);
+
+		table.setBackground(new Color(255, 255, 255, 0));
+		table.setRowHeight(30);
+		table.setOpaque(false);
+		table.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		table.setBorder(null);
+		table.getTableHeader().setFont(new Font("Euclid Circular A", Font.BOLD, 14));
+		table.getTableHeader().setBackground(new Color(0, 51, 102, 40));
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setRequestFocusEnabled(false);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.getViewport().setBorder(null);
+		scrollPane.setBounds(217, 184, 651, 356);
+		scrollPane.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setLayout(new ScrollPaneLayout());
+		contentPane.add(scrollPane);
+		table.getTableHeader().setPreferredSize(new Dimension(scrollPane.getWidth(), 30));
+
+		JButton deleteBtn = new JButton("DELETE ROW(S)");
+		deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> selectedRows = new ArrayList<Integer>();
+				ArrayList<String> selectedVaccine = new ArrayList<String>();
+				ArrayList<String> selectedEmail = new ArrayList<String>();
+				for (int i = 0; i < table.getModel().getRowCount(); i++) {
+					boolean check = (boolean) table.getValueAt(i, 0);
+					if (check) {
+						selectedRows.add(Integer.parseInt((String) table.getValueAt(i, 1)));
+						selectedVaccine.add((String) table.getValueAt(i, 5));
+						selectedEmail.add((String) table.getValueAt(i, 2));
+					}
+				}
+				DeleteOperations dop = new DeleteOperations();
+				UpdateOperations uo = new UpdateOperations();
+				int rows = dop.delete_appointments(selectedRows);
+				if (rows == 0) {
+					JOptionPane.showMessageDialog(null, "Deletion Failed! Try Again", "Failed",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					uo.increment_stock_after_appointment_delete(selectedVaccine);
+					uo.update_status_after_appointment_delete(selectedEmail);
+					JOptionPane.showMessageDialog(null, "Deleted Selected Appointments Successfully", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+					ManageAppointments ma = new ManageAppointments();
+					ma.setLocationRelativeTo(null);
+					ma.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		deleteBtn.setForeground(Color.WHITE);
+		deleteBtn.setFont(new Font("Euclid Circular A", Font.BOLD, 16));
+		deleteBtn.setBorderPainted(false);
+		deleteBtn.setBackground(Color.RED);
+		deleteBtn.setBounds(217, 554, 157, 42);
+		contentPane.add(deleteBtn);
+		
+		JLabel tableTitle = new JLabel("APPOINTMENT DETAILS");
+		tableTitle.setHorizontalTextPosition(SwingConstants.CENTER);
+		tableTitle.setHorizontalAlignment(SwingConstants.LEFT);
+		tableTitle.setForeground(new Color(0, 51, 102));
+		tableTitle.setFont(new Font("Euclid Circular A", Font.BOLD, 22));
+		tableTitle.setBounds(217, 139, 369, 50);
+		contentPane.add(tableTitle);
 
 		JLabel backgroundImg = new JLabel("");
-		backgroundImg.setIcon(new ImageIcon(AdminDashboard.class.getResource("/resources/bg.png")));
+		backgroundImg.setIcon(new ImageIcon(ManageAppointments.class.getResource("/resources/bg.png")));
 		backgroundImg.setBorder(null);
 		backgroundImg.setAlignmentY(0.0f);
 		backgroundImg.setBounds(0, 0, 900, 650);

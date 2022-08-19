@@ -425,7 +425,6 @@ public class BookYourSlotPage extends JFrame {
 		Covaxin.setBounds(208, 194, 105, 23);
 		mainSection.add(Covaxin);
 		Covaxin.setOpaque(false);
-		Covaxin.setBackground(Color.WHITE);
 		Covaxin.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
 		Covaxin.setActionCommand("Covaxin");
 		group.add(Covaxin);
@@ -435,7 +434,6 @@ public class BookYourSlotPage extends JFrame {
 		mainSection.add(Covishield);
 		Covishield.setOpaque(false);
 		Covishield.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
-		Covishield.setBackground(Color.WHITE);
 		Covishield.setActionCommand("Covishield");
 		group.add(Covishield);
 
@@ -575,7 +573,7 @@ public class BookYourSlotPage extends JFrame {
 										JOptionPane.ERROR_MESSAGE);
 							} else {
 								UpdateOperations uo = new UpdateOperations();
-								uo.update_vaccine_stock(group.getSelection().getActionCommand());
+								uo.decrement_stock(group.getSelection().getActionCommand());
 								EmailNotification en = new EmailNotification();
 								en.send_notification(username);
 								JOptionPane.showMessageDialog(null, "Slot Booked Successfully\nCheck your mail for confirmation", "Success",

@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.table.DefaultTableModel;
+
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.sql.SQLException;
@@ -59,7 +61,7 @@ public class SelectOperations {
 		}
 		return al;
 	}
-	
+
 	public String select_user_name(String username) {
 		String name = "user";
 		try {
@@ -226,6 +228,42 @@ public class SelectOperations {
 		return al;
 	}
 
+	public DefaultTableModel create_appointments_table() {
+		String[] columns = { "", "ID", "EMAIL_ID", "AADHAAR_NO", "APPOINTMENT_DATE", "VACCINE_NAME", "VACCINE_CENTER" };
+		DefaultTableModel model = new DefaultTableModel(columns, 0);
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, user, pass);
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT * FROM APPOINTMENTS");
+			while (rs.next()) {
+				model.addRow(new Object[] { false, rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getString(6) });
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return model;
+	}
+
 	public ArrayList<String> select_vaccine_centers() {
 		ArrayList<String> al = new ArrayList<String>();
 		try {
@@ -296,7 +334,7 @@ public class SelectOperations {
 		}
 		return status;
 	}
-	
+
 	public DefaultPieDataset select_pie_dataset() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		int rows = 0;
@@ -305,20 +343,20 @@ public class SelectOperations {
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Not Yet Vaccinated'");
-			while(rs.next()) {
-				rows = rs.getInt(1);				
+			while (rs.next()) {
+				rows = rs.getInt(1);
 			}
 			dataset.setValue("Not Yet Vaccinated", rows);
 			rows = 0;
 			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Scheduled'");
-			while(rs.next()) {
-				rows = rs.getInt(1);				
+			while (rs.next()) {
+				rows = rs.getInt(1);
 			}
 			dataset.setValue("Scheduled", rows);
 			rows = 0;
 			rs = st.executeQuery("SELECT COUNT(ID) FROM VACCINE_STATUS WHERE STATUS = 'Vaccinated'");
-			while(rs.next()) {
-				rows = rs.getInt(1);				
+			while (rs.next()) {
+				rows = rs.getInt(1);
 			}
 			dataset.setValue("Vaccinated", rows);
 		} catch (ClassNotFoundException e0) {

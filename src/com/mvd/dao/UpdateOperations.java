@@ -16,13 +16,44 @@ public class UpdateOperations {
 	Statement st = null;
 	PreparedStatement ps = null;
 
-	public int update_vaccine_stock(String vaccine_name) {
+	public int decrement_stock(String vaccine_name) {
 		int rows = 0;
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
 			st = con.createStatement();
 			rows = st.executeUpdate("UPDATE VACCINE_STOCK SET STOCK = STOCK - 1 WHERE NAME = '" + vaccine_name + "'");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null)
+					st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rows;
+	}
+
+	public int increment_stock_after_appointment_delete(ArrayList<String> selectedVaccine) {
+		int rows = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, username, password);
+			st = con.createStatement();
+			for (int i = 0; i < selectedVaccine.size(); i++) {
+				rows = st.executeUpdate(
+						"UPDATE VACCINE_STOCK SET STOCK = STOCK + 1 WHERE NAME = '" + selectedVaccine.get(i) + "'");
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -72,13 +103,45 @@ public class UpdateOperations {
 		}
 		return rows;
 	}
-	
+
+	public int update_status_after_appointment_delete(ArrayList<String> selectedEmail) {
+		int rows = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, username, password);
+			st = con.createStatement();
+			for (int i = 0; i < selectedEmail.size(); i++) {
+				rows = st.executeUpdate("UPDATE VACCINE_STATUS SET STATUS = 'Not Yet Vaccinated' WHERE EMAIL_ID = '"
+						+ selectedEmail.get(i) + "'");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null)
+					st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rows;
+	}
+
 	public int update_appointment(ArrayList<String> al) {
 		int rows = 0;
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
-			ps = con.prepareStatement("UPDATE APPOINTMENTS SET AADHAAR_NO = ?, APPOINTMENT_DATE = ?, VACCINE_NAME = ?, VACCINE_CENTER = ? WHERE EMAIL_ID = ?");
+			ps = con.prepareStatement(
+					"UPDATE APPOINTMENTS SET AADHAAR_NO = ?, APPOINTMENT_DATE = ?, VACCINE_NAME = ?, VACCINE_CENTER = ? WHERE EMAIL_ID = ?");
 			if (ps != null) {
 				ps.setString(1, al.get(1));
 				ps.setString(2, al.get(2));
