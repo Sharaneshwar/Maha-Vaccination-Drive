@@ -16,6 +16,37 @@ public class UpdateOperations {
 	Statement st = null;
 	PreparedStatement ps = null;
 
+	public int update_vaccine_stock(String covaxin_stock, String covishield_stock) {
+		int rows = 0;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, username, password);
+			st = con.createStatement();
+			rows = st.executeUpdate("UPDATE VACCINE_STOCK SET STOCK = " + covaxin_stock + " WHERE NAME = 'Covaxin'");
+			if (rows != 0) {
+				rows = st.executeUpdate("UPDATE VACCINE_STOCK SET STOCK = " + covishield_stock + " WHERE NAME = 'Covishield'");
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null)
+					st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rows;
+	}
+
 	public int decrement_stock(String vaccine_name) {
 		int rows = 0;
 		try {

@@ -55,7 +55,7 @@ public class EmailNotification {
 
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("mahavaccinationdrive@gmail.com", "vqzaqbkqbloahktw");
+                return new PasswordAuthentication("mahavaccinationdrive@gmail.com", "wvsraymwkvsasdyn");
             }
         });
         

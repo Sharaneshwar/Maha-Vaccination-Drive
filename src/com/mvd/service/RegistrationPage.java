@@ -554,7 +554,7 @@ public class RegistrationPage extends JFrame {
 					emailError.setText("* Required");
 					emailError.setVisible(true);
 				} else {
-					ptr = Pattern.compile("[a-zA-Z0-9]{3,20}@[A-Za-z]{3,10}.(com|in)");
+					ptr = Pattern.compile("[a-zA-Z0-9.]{3,20}@[A-Za-z]{3,10}.(com|in)");
 					match = ptr.matcher(emailID.getText());
 					valEmail = !(match.find() && match.group().equals(emailID.getText()));
 					if (valEmail) {

@@ -111,7 +111,7 @@ public class LoginPage extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int choice = JOptionPane.showConfirmDialog(null, "Do you want to cancel the login?", "Alert",
-						JOptionPane.WARNING_MESSAGE);
+						JOptionPane.YES_NO_OPTION);
 				if (choice == JOptionPane.YES_OPTION) {
 					HomePage hPage = new HomePage();
 					hPage.setLocationRelativeTo(null);
@@ -280,7 +280,7 @@ public class LoginPage extends JFrame {
 				}
 
 				if (!(valUsername || valPassword)) {
-					if (username.getText().equals("admin_mvd")
+					if (username.getText().equals("admin")
 							&& String.valueOf(password.getPassword()).equals("12345678")) {
 						JOptionPane.showMessageDialog(null, "Login Successfull !", "Success",
 								JOptionPane.INFORMATION_MESSAGE);

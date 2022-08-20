@@ -15,6 +15,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
+import com.mvd.dao.SelectOperations;
+import com.mvd.dao.UpdateOperations;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageStock extends JFrame {
 
@@ -23,6 +32,8 @@ public class ManageStock extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField covaxin;
+	private JTextField covishield;
 
 	/**
 	 * Launch the application.
@@ -55,7 +66,7 @@ public class ManageStock extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setUndecorated(true);
-		
+
 		JPanel headerPanel = new JPanel();
 		headerPanel.setLayout(null);
 		headerPanel.setBackground(new Color(238, 232, 170));
@@ -289,7 +300,102 @@ public class ManageStock extends JFrame {
 		s4.setBackground(new Color(0, 51, 102));
 		s4.setBounds(20, 15, 3, 30);
 		logoutPanel.add(s4);
-		
+
+		JLabel covaxinLabel = new JLabel("COVAXIN");
+		covaxinLabel.setForeground(new Color(0, 51, 102));
+		covaxinLabel.setOpaque(true);
+		covaxinLabel.setIcon(new ImageIcon(ManageStock.class.getResource("/resources/bg.png")));
+		covaxinLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		covaxinLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		covaxinLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 24));
+		covaxinLabel.setBounds(359, 192, 127, 36);
+		contentPane.add(covaxinLabel);
+
+		JPanel covaxinPanel = new JPanel();
+		covaxinPanel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		covaxinPanel.setOpaque(false);
+		covaxinPanel.setBounds(324, 209, 196, 165);
+		contentPane.add(covaxinPanel);
+		covaxinPanel.setLayout(null);
+
+		covaxin = new JTextField();
+		covaxin.setForeground(Color.BLACK);
+		covaxin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				covaxin.setEditable(true);
+			}
+		});
+		covaxin.setText("0");
+		covaxin.setBorder(null);
+		covaxin.setOpaque(false);
+		covaxin.setHorizontalAlignment(SwingConstants.CENTER);
+		covaxin.setFont(new Font("Euclid Circular A", Font.PLAIN, 38));
+		covaxin.setBounds(23, 40, 149, 84);
+		covaxin.setEditable(false);
+		covaxin.setColumns(10);
+		covaxinPanel.add(covaxin);
+
+		JLabel covishieldLabel = new JLabel("COVISHIELD");
+		covishieldLabel.setIcon(new ImageIcon(ManageStock.class.getResource("/resources/bg.png")));
+		covishieldLabel.setOpaque(true);
+		covishieldLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		covishieldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		covishieldLabel.setForeground(new Color(0, 51, 102));
+		covishieldLabel.setFont(new Font("Euclid Circular A", Font.BOLD, 24));
+		covishieldLabel.setBounds(592, 192, 159, 36);
+		contentPane.add(covishieldLabel);
+
+		JPanel covishieldPanel = new JPanel();
+		covishieldPanel.setLayout(null);
+		covishieldPanel.setOpaque(false);
+		covishieldPanel.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
+		covishieldPanel.setBounds(573, 209, 196, 165);
+		contentPane.add(covishieldPanel);
+
+		covishield = new JTextField();
+		covishield.setForeground(Color.BLACK);
+		covishield.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				covishield.setEditable(true);
+			}
+		});
+		covishield.setText("0");
+		covishield.setOpaque(false);
+		covishield.setHorizontalAlignment(SwingConstants.CENTER);
+		covishield.setFont(new Font("Euclid Circular A", Font.PLAIN, 38));
+		covishield.setColumns(10);
+		covishield.setBorder(null);
+		covishield.setBounds(23, 40, 149, 84);
+		covishield.setEditable(false);
+		covishieldPanel.add(covishield);
+
+		SelectOperations so = new SelectOperations();
+		covaxin.setText(String.valueOf(so.select_vaccine_stock(covaxinLabel.getText())));
+		covishield.setText(String.valueOf(so.select_vaccine_stock(covishieldLabel.getText())));
+
+		JButton btnUpdateStock = new JButton("UPDATE STOCK");
+		btnUpdateStock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UpdateOperations uo = new UpdateOperations();
+				int rows = uo.update_vaccine_stock(covaxin.getText(), covishield.getText());
+				if (rows == 0) {
+					JOptionPane.showMessageDialog(null, "Updation Failed! Try Again", "Failed",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Stock Updated Successfully", "Success",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnUpdateStock.setForeground(Color.WHITE);
+		btnUpdateStock.setFont(new Font("Euclid Circular A", Font.BOLD, 20));
+		btnUpdateStock.setBorderPainted(false);
+		btnUpdateStock.setBackground(new Color(0, 128, 0));
+		btnUpdateStock.setBounds(447, 422, 196, 42);
+		contentPane.add(btnUpdateStock);
+
 		JLabel backgroundImg = new JLabel("");
 		backgroundImg.setIcon(new ImageIcon(ManageAppointments.class.getResource("/resources/bg.png")));
 		backgroundImg.setBorder(null);
@@ -297,5 +403,4 @@ public class ManageStock extends JFrame {
 		backgroundImg.setBounds(0, 0, 900, 650);
 		contentPane.add(backgroundImg);
 	}
-
 }
