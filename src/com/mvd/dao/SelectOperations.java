@@ -204,6 +204,7 @@ public class SelectOperations {
 				al.add(rs.getString("VACCINE_NAME"));
 				al.add(rs.getString("VACCINE_CENTER"));
 			}
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

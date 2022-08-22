@@ -44,7 +44,7 @@ public class EmailNotification {
 				so.select_user_name(username), al.get(3), format2.format(date), al.get(4), al.get(0));
 		String subject = "Your Appointment Is Confirmed";
 		String to = username;
-		String from = "Maha Vaccination Drive <mahavaccinationdrive@gmail.com>";
+		String from = "Maha Vaccination Drive <mvd.ssvp@gmail.com>";
 
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -55,7 +55,7 @@ public class EmailNotification {
 
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("mahavaccinationdrive@gmail.com", "wvsraymwkvsasdyn");
+                return new PasswordAuthentication("mvd.ssvp@gmail.com", "eytyzcqrqjmchjph");
             }
         });
         
