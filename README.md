@@ -8,7 +8,7 @@ Database used - MySQL
 
 GUI Screenshots-
 
-![HomePage](https://user-images.githubusercontent.com/63896859/187355515-8642f212-972b-481e-9318-9820c32de9c8.jpeg)
+![HomePage](https://user-images.githubusercontent.com/63896859/187355515-8642f212-972b-481e-9318-9820c32de9c8.jpeg | width=100)
 ![RegistrationPage](https://user-images.githubusercontent.com/63896859/187355499-0e450b28-b6df-4912-834d-fcc4bf38b930.jpeg)
 ![LoginPage](https://user-images.githubusercontent.com/63896859/187355518-09b9cfed-1022-4fba-ae14-9517a09ac609.jpeg)
 ![MyProfilePage](https://user-images.githubusercontent.com/63896859/187355526-f1553774-410d-4e2c-81ce-733640d2b70d.jpeg)
