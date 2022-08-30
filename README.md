@@ -6,6 +6,8 @@ Implemented Technologies - Java, AWT, Swings, JDBC
 
 Database used - MySQL
 
+GUI Screenshots-
+
 ![HomePage](https://user-images.githubusercontent.com/63896859/187355515-8642f212-972b-481e-9318-9820c32de9c8.jpeg)
 ![RegistrationPage](https://user-images.githubusercontent.com/63896859/187355499-0e450b28-b6df-4912-834d-fcc4bf38b930.jpeg)
 ![LoginPage](https://user-images.githubusercontent.com/63896859/187355518-09b9cfed-1022-4fba-ae14-9517a09ac609.jpeg)
