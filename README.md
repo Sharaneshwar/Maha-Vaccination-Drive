@@ -1,6 +1,6 @@
 # Maha-Vaccination-Drive
 
-The project developed by me, Susmit, Viresh and Prathamesh. It is an application for COVID vaccine appointment registration and management.
+The project developed by Sharaneshwar, Susmit, Viresh and Prathamesh. It is an application for COVID vaccine appointment registration and management.
 
 Implemented Technologies - Java, AWT, Swings, JDBC
 
