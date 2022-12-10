@@ -1,14 +1,23 @@
 package com.mvd.service;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.LineBorder;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,20 +27,10 @@ import org.jfree.ui.RectangleInsets;
 
 import com.mvd.dao.SelectOperations;
 
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JSeparator;
-import javax.swing.ImageIcon;
-import java.awt.Cursor;
-import java.awt.BorderLayout;
-import javax.swing.border.LineBorder;
-
 public class AdminDashboard extends JFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -41,6 +40,7 @@ public class AdminDashboard extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					AdminDashboard frame = new AdminDashboard();
@@ -57,7 +57,7 @@ public class AdminDashboard extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminDashboard() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -313,12 +313,12 @@ public class AdminDashboard extends JFrame {
 		chart.getLegend().setItemFont(new Font("Euclid Circular A", Font.PLAIN, 17));
 		chart.getLegend().setItemLabelPadding(new RectangleInsets(2, 2, 20, 20));
 		chart.getLegend().setLegendItemGraphicPadding(new RectangleInsets(0, 0, 18, 5));
-		
+
 		PiePlot piePlot = (PiePlot) chart.getPlot();
 		piePlot.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF, 0));
 		piePlot.setLabelGenerator(null);
 		piePlot.setOutlinePaint(null);
-		
+
 		JLabel chartTitle = new JLabel("VACCINATION STATISTICS");
 		chartTitle.setIcon(new ImageIcon(AdminDashboard.class.getResource("/resources/bg.png")));
 		chartTitle.setForeground(new Color(0, 51, 102));
@@ -327,7 +327,7 @@ public class AdminDashboard extends JFrame {
 		chartTitle.setFont(new Font("Euclid Circular A", Font.BOLD, 26));
 		chartTitle.setBounds(360, 156, 369, 44);
 		contentPane.add(chartTitle);
-		
+
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setBorder(null);
 		chartPanel.setOpaque(false);

@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -15,29 +17,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import com.mvd.dao.InsertOperations;
 import com.mvd.dao.SelectOperations;
 import com.mvd.dao.UpdateOperations;
 import com.mvd.utility.EmailNotification;
 import com.toedter.calendar.JYearChooser;
-
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.border.MatteBorder;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class BookYourSlotPage extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +49,7 @@ public class BookYourSlotPage extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					BookYourSlotPage frame = new BookYourSlotPage("");
@@ -69,7 +70,7 @@ public class BookYourSlotPage extends JFrame {
 		ArrayList<String> al = so.select_vaccine_centers();
 		String status = so.select_vaccine_status(username);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -443,11 +444,11 @@ public class BookYourSlotPage extends JFrame {
 		lblVaccineCenter.setBounds(42, 243, 146, 29);
 		mainSection.add(lblVaccineCenter);
 
-		JComboBox<String> vaccineCenters = new JComboBox<String>();
+		JComboBox<String> vaccineCenters = new JComboBox<>();
 		vaccineCenters.setMaximumRowCount(30);
-		vaccineCenters.setModel(new DefaultComboBoxModel<String>(al.toArray(new String[al.size()])));
+		vaccineCenters.setModel(new DefaultComboBoxModel<>(al.toArray(new String[al.size()])));
 		vaccineCenters.setFont(new Font("Euclid Circular A Light", Font.PLAIN, 15));
-		vaccineCenters.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 51, 102)));
+		vaccineCenters.setBorder(new MatteBorder(0, 0, 2, 0, new Color(0, 51, 102)));
 		vaccineCenters.setBounds(209, 243, 349, 30);
 		mainSection.add(vaccineCenters);
 
@@ -500,6 +501,7 @@ public class BookYourSlotPage extends JFrame {
 
 		JButton btnBookSlot = new JButton("BOOK SLOT");
 		btnBookSlot.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean valAadhaar, valStock, valCenter, valDate = false;
 				valAadhaar = aadhaarNo.getText().equals("");
@@ -558,7 +560,7 @@ public class BookYourSlotPage extends JFrame {
 					} else {
 						error.setVisible(false);
 
-						ArrayList<String> al = new ArrayList<String>();
+						ArrayList<String> al = new ArrayList<>();
 						al.add(username);
 						al.add(aadhaarNo.getText());
 						al.add(appointment_date);
@@ -576,7 +578,8 @@ public class BookYourSlotPage extends JFrame {
 								uo.decrement_stock(group.getSelection().getActionCommand());
 								EmailNotification en = new EmailNotification();
 								en.send_notification(username);
-								JOptionPane.showMessageDialog(null, "Slot Booked Successfully\nCheck your mail for confirmation", "Success",
+								JOptionPane.showMessageDialog(null,
+										"Slot Booked Successfully\nCheck your mail for confirmation", "Success",
 										JOptionPane.INFORMATION_MESSAGE);
 								myProfilePanel.setOpaque(true);
 								Dashboard db = new Dashboard(username);
@@ -593,7 +596,8 @@ public class BookYourSlotPage extends JFrame {
 							} else {
 								EmailNotification en = new EmailNotification();
 								en.send_notification(username);
-								JOptionPane.showMessageDialog(null, "Slot Booked Successfully\nCheck your mail for confirmation", "Success",
+								JOptionPane.showMessageDialog(null,
+										"Slot Booked Successfully\nCheck your mail for confirmation", "Success",
 										JOptionPane.INFORMATION_MESSAGE);
 								myProfilePanel.setOpaque(true);
 								Dashboard db = new Dashboard(username);
@@ -616,6 +620,7 @@ public class BookYourSlotPage extends JFrame {
 
 		JButton btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				myProfilePanel.setOpaque(true);
 				Dashboard db = new Dashboard(username);
@@ -643,8 +648,10 @@ public class BookYourSlotPage extends JFrame {
 		contentPane.add(slotBooked);
 
 		JButton btnReschedule = new JButton("RESCHEDULE");
+		btnReschedule.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnReschedule.setFocusable(false);
 		btnReschedule.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainSection.setVisible(true);
 				ArrayList<String> al = so.select_appointment_details(username);

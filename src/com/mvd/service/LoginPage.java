@@ -1,32 +1,29 @@
 package com.mvd.service;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 import com.mvd.dao.CheckUsernamePassword;
-
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JSeparator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Cursor;
 
 public class LoginPage extends JFrame {
 
@@ -38,6 +35,7 @@ public class LoginPage extends JFrame {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					LoginPage frame = new LoginPage();
@@ -56,7 +54,7 @@ public class LoginPage extends JFrame {
 	public LoginPage() {
 		cup.select_username_password();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -210,7 +208,6 @@ public class LoginPage extends JFrame {
 		registerPanel.add(s1);
 
 		username = new JTextField();
-		username.setToolTipText("");
 		username.setOpaque(false);
 		username.setFont(new Font("Euclid Circular A", Font.PLAIN, 16));
 		username.setColumns(10);
@@ -263,6 +260,7 @@ public class LoginPage extends JFrame {
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean valUsername, valPassword;
 				valUsername = username.getText().equals("");

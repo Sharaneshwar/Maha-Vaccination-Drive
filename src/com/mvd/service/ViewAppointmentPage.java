@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 import com.mvd.dao.SelectOperations;
@@ -33,6 +34,7 @@ public class ViewAppointmentPage extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					ViewAppointmentPage frame = new ViewAppointmentPage("");
@@ -49,7 +51,7 @@ public class ViewAppointmentPage extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewAppointmentPage(String username) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);

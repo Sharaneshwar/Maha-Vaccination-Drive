@@ -1,6 +1,9 @@
 package com.mvd.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,10 +13,6 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 import org.jfree.data.general.DefaultPieDataset;
-
-import java.sql.SQLException;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
 public class SelectOperations {
 	private static String driver = "com.mysql.jdbc.Driver";
@@ -25,7 +24,7 @@ public class SelectOperations {
 	ResultSet rs = null;
 
 	public ArrayList<String> select_for_dashboard(String username) {
-		ArrayList<String> al = new ArrayList<String>();
+		ArrayList<String> al = new ArrayList<>();
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
@@ -189,7 +188,7 @@ public class SelectOperations {
 	}
 
 	public ArrayList<String> select_appointment_details(String username) {
-		ArrayList<String> al = new ArrayList<String>();
+		ArrayList<String> al = new ArrayList<>();
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
@@ -266,7 +265,7 @@ public class SelectOperations {
 	}
 
 	public ArrayList<String> select_vaccine_centers() {
-		ArrayList<String> al = new ArrayList<String>();
+		ArrayList<String> al = new ArrayList<>();
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);

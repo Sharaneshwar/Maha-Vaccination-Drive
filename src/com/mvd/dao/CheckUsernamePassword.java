@@ -12,11 +12,11 @@ public class CheckUsernamePassword {
 	private static String url = "jdbc:mysql://localhost:3306/mvd_db";
 	private static String user = "root";
 	private static String pass = "";
-	HashMap<String, String> hm = new HashMap<String, String>();
+	HashMap<String, String> hm = new HashMap<>();
 	Connection con = null;
 	Statement st = null;
 	ResultSet rs = null;
-	
+
 	public void select_username_password() {
 		try {
 			Class.forName(driver);

@@ -1,10 +1,10 @@
 package com.mvd.dao;
 
-import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.DriverManager;
+import java.util.ArrayList;
 
 public class InsertOperations {
 	public static String url = "jdbc:mysql://localhost:3306/mvd_db";
@@ -85,7 +85,7 @@ public class InsertOperations {
 		}
 		return rows;
 	}
-	
+
 	public int insert_into_vaccine_status(String emailID) {
 		int rows = 0;
 		try {

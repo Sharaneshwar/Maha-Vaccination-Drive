@@ -5,37 +5,37 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.mvd.dao.DeleteOperations;
 import com.mvd.dao.SelectOperations;
 import com.mvd.dao.UpdateOperations;
 
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.JSeparator;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.border.LineBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class ManageAppointments extends JFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -46,6 +46,7 @@ public class ManageAppointments extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					ManageAppointments frame = new ManageAppointments();
@@ -62,7 +63,7 @@ public class ManageAppointments extends JFrame {
 	 * Create the frame.
 	 */
 	public ManageAppointments() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -308,9 +309,9 @@ public class ManageAppointments extends JFrame {
 		logoutPanel.add(s4);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
-		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
+		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
 
 		SelectOperations so = new SelectOperations();
 		table = new JTable(so.create_appointments_table()) {
@@ -320,6 +321,7 @@ public class ManageAppointments extends JFrame {
 			Class[] columnTypes = new Class[] { Boolean.class, String.class, String.class, String.class, String.class,
 					String.class, String.class };
 
+			@Override
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public Class getColumnClass(int column) {
 				return columnTypes[column];
@@ -367,17 +369,18 @@ public class ManageAppointments extends JFrame {
 		scrollPane.getViewport().setBorder(null);
 		scrollPane.setBounds(217, 184, 651, 356);
 		scrollPane.setBorder(new LineBorder(new Color(0, 51, 102), 2, true));
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setLayout(new ScrollPaneLayout());
 		contentPane.add(scrollPane);
 		table.getTableHeader().setPreferredSize(new Dimension(scrollPane.getWidth(), 30));
 
 		JButton deleteBtn = new JButton("DELETE ROW(S)");
 		deleteBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Integer> selectedRows = new ArrayList<Integer>();
-				ArrayList<String> selectedVaccine = new ArrayList<String>();
-				ArrayList<String> selectedEmail = new ArrayList<String>();
+				ArrayList<Integer> selectedRows = new ArrayList<>();
+				ArrayList<String> selectedVaccine = new ArrayList<>();
+				ArrayList<String> selectedEmail = new ArrayList<>();
 				for (int i = 0; i < table.getModel().getRowCount(); i++) {
 					boolean check = (boolean) table.getValueAt(i, 0);
 					if (check) {
@@ -410,7 +413,7 @@ public class ManageAppointments extends JFrame {
 		deleteBtn.setBackground(Color.RED);
 		deleteBtn.setBounds(217, 554, 157, 42);
 		contentPane.add(deleteBtn);
-		
+
 		JLabel tableTitle = new JLabel("APPOINTMENT DETAILS");
 		tableTitle.setHorizontalTextPosition(SwingConstants.CENTER);
 		tableTitle.setHorizontalAlignment(SwingConstants.LEFT);

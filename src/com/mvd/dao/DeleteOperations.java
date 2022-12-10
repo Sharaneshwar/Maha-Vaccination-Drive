@@ -19,8 +19,8 @@ public class DeleteOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, pass);
 			st = con.createStatement();
-			for (int i = 0; i < rows.size(); i++) {
-				st.executeUpdate("DELETE FROM APPOINTMENTS WHERE ID = " + rows.get(i));
+			for (Integer row : rows) {
+				st.executeUpdate("DELETE FROM APPOINTMENTS WHERE ID = " + row);
 			}
 			return 1;
 		} catch (ClassNotFoundException e) {

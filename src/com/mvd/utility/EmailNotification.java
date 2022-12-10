@@ -21,7 +21,7 @@ public class EmailNotification {
 	public int send_notification(String username) {
 		SelectOperations so = new SelectOperations();
 		ArrayList<String> al = so.select_appointment_details(username);
-		
+
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat format2 = new SimpleDateFormat("EEEE, MMMM d, yyyy");
 		Date date = null;
@@ -30,7 +30,7 @@ public class EmailNotification {
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		String message = String.format(
 				"<html>"
 				+ "<body>"
@@ -54,11 +54,12 @@ public class EmailNotification {
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
+            @Override
+			protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication("mvd.ssvp@gmail.com", "eytyzcqrqjmchjph");
             }
         });
-        
+
 		try {
 			MimeMessage m = new MimeMessage(session);
 			m.setFrom(new InternetAddress(from));

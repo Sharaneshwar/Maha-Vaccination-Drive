@@ -81,9 +81,9 @@ public class UpdateOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
 			st = con.createStatement();
-			for (int i = 0; i < selectedVaccine.size(); i++) {
+			for (String element : selectedVaccine) {
 				rows = st.executeUpdate(
-						"UPDATE VACCINE_STOCK SET STOCK = STOCK + 1 WHERE NAME = '" + selectedVaccine.get(i) + "'");
+						"UPDATE VACCINE_STOCK SET STOCK = STOCK + 1 WHERE NAME = '" + element + "'");
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -141,9 +141,9 @@ public class UpdateOperations {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
 			st = con.createStatement();
-			for (int i = 0; i < selectedEmail.size(); i++) {
+			for (String element : selectedEmail) {
 				rows = st.executeUpdate("UPDATE VACCINE_STATUS SET STATUS = 'Not Yet Vaccinated' WHERE EMAIL_ID = '"
-						+ selectedEmail.get(i) + "'");
+						+ element + "'");
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

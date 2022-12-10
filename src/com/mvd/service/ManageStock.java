@@ -5,30 +5,30 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 import com.mvd.dao.SelectOperations;
 import com.mvd.dao.UpdateOperations;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class ManageStock extends JFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -40,6 +40,7 @@ public class ManageStock extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					ManageStock frame = new ManageStock();
@@ -56,7 +57,7 @@ public class ManageStock extends JFrame {
 	 * Create the frame.
 	 */
 	public ManageStock() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -371,21 +372,37 @@ public class ManageStock extends JFrame {
 		covishield.setEditable(false);
 		covishieldPanel.add(covishield);
 
+		JLabel error = new JLabel(
+				"<html><center>\r\n* Invalid Stock Input *<br>\r\nEnter only positive values\r\n</center></html>");
+		error.setVisible(false);
+		error.setForeground(Color.RED);
+		error.setFont(new Font("Euclid Circular A", Font.PLAIN, 14));
+		error.setHorizontalTextPosition(SwingConstants.CENTER);
+		error.setHorizontalAlignment(SwingConstants.CENTER);
+		error.setBounds(420, 475, 250, 42);
+		contentPane.add(error);
+
 		SelectOperations so = new SelectOperations();
 		covaxin.setText(String.valueOf(so.select_vaccine_stock(covaxinLabel.getText())));
 		covishield.setText(String.valueOf(so.select_vaccine_stock(covishieldLabel.getText())));
 
 		JButton btnUpdateStock = new JButton("UPDATE STOCK");
 		btnUpdateStock.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				UpdateOperations uo = new UpdateOperations();
-				int rows = uo.update_vaccine_stock(covaxin.getText(), covishield.getText());
-				if (rows == 0) {
-					JOptionPane.showMessageDialog(null, "Updation Failed! Try Again", "Failed",
-							JOptionPane.ERROR_MESSAGE);
+				if (Integer.parseInt(covaxin.getText()) < 0 || Integer.parseInt(covishield.getText()) < 0) {
+					error.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(null, "Stock Updated Successfully", "Success",
-							JOptionPane.INFORMATION_MESSAGE);
+					error.setVisible(false);
+					UpdateOperations uo = new UpdateOperations();
+					int rows = uo.update_vaccine_stock(covaxin.getText(), covishield.getText());
+					if (rows == 0) {
+						JOptionPane.showMessageDialog(null, "Updation Failed! Try Again", "Failed",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Stock Updated Successfully", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		});

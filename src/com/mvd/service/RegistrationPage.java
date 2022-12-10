@@ -1,44 +1,42 @@
 package com.mvd.service;
 
-import com.mvd.dao.InsertOperations;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
-
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JTextArea;
-import java.awt.Component;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.LineBorder;
+
+import com.mvd.dao.InsertOperations;
 import com.toedter.calendar.JYearChooser;
-import java.awt.Dimension;
-import java.awt.Cursor;
 
 public class RegistrationPage extends JFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -53,6 +51,7 @@ public class RegistrationPage extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					RegistrationPage frame = new RegistrationPage();
@@ -69,7 +68,7 @@ public class RegistrationPage extends JFrame {
 	 * Create the frame.
 	 */
 	public RegistrationPage() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
 		contentPane = new JPanel();
 		contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -493,6 +492,7 @@ public class RegistrationPage extends JFrame {
 		JButton submit = new JButton("SUBMIT");
 		submit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		submit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean valName, valMobileNo, valEmail, valGender, valAddress, valPass, valConfPass, valSamePass;
 				Pattern ptr;
@@ -564,7 +564,7 @@ public class RegistrationPage extends JFrame {
 						emailError.setVisible(false);
 					}
 				}
-				
+
 				valSamePass = !(String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword())));
 				if (valSamePass) {
 					passwordError.setVisible(true);
@@ -573,7 +573,7 @@ public class RegistrationPage extends JFrame {
 				}
 
 				if (!(valName || valMobileNo || valEmail || valGender || valAddress || valPass || valConfPass || valSamePass)) {
-					ArrayList<String> al = new ArrayList<String>();
+					ArrayList<String> al = new ArrayList<>();
 					String dobString = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
 							+ String.format("%02d", day.getValue());
 					al.add(fullName.getText());
@@ -615,6 +615,7 @@ public class RegistrationPage extends JFrame {
 		JButton reset = new JButton("RESET");
 		reset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		reset.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				fullName.setText("");
 				mobileNo.setText("");
