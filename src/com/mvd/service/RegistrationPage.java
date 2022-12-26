@@ -565,14 +565,16 @@ public class RegistrationPage extends JFrame {
 					}
 				}
 
-				valSamePass = !(String.valueOf(password.getPassword()).equals(String.valueOf(confirmPassword.getPassword())));
+				valSamePass = !(String.valueOf(password.getPassword())
+						.equals(String.valueOf(confirmPassword.getPassword())));
 				if (valSamePass) {
 					passwordError.setVisible(true);
 				} else {
 					passwordError.setVisible(false);
 				}
 
-				if (!(valName || valMobileNo || valEmail || valGender || valAddress || valPass || valConfPass || valSamePass)) {
+				if (!(valName || valMobileNo || valEmail || valGender || valAddress || valPass || valConfPass
+						|| valSamePass)) {
 					ArrayList<String> al = new ArrayList<>();
 					String dobString = year.getValue() + "-" + String.format("%02d", month.getValue()) + "-"
 							+ String.format("%02d", day.getValue());
